@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bob.student.mapper.StudentCourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bob.student.domain.StudentCourse">
+        <id column="id" property="id" />
+        <result column="student_id" property="studentId" />
+        <result column="registration_id" property="registrationId" />
+        <result column="study_plan_id" property="studyPlanId" />
+        <result column="course_name" property="courseName" />
+        <result column="course_img" property="courseImg" />
+        <result column="unit" property="unit" />
+        <result column="study_plan_course_type" property="studyPlanCourseType" />
+        <result column="revision" property="revision" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, student_id, registration_id, study_plan_id, course_name, course_img, unit, study_plan_course_type, revision, created_by, created_time, updated_by, updated_time, del_flag
+    </sql>
+
+</mapper>
