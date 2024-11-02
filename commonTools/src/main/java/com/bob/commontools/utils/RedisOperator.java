@@ -1,4 +1,4 @@
-package utils;
+package com.bob.commontools.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

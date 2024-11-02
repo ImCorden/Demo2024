@@ -1,4 +1,4 @@
-package utils;
+package com.bob.commontools.utils;
 
 
 import org.apache.logging.log4j.util.Strings;

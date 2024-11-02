@@ -1,8 +1,6 @@
-package pojo;
+package com.bob.commontools.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,7 +29,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@ApiModel("统一API响应结果封装")
 public class JsonResult {
 
     /**
@@ -42,19 +39,16 @@ public class JsonResult {
     /**
      * 响应业务状态
      */
-    @ApiModelProperty("响应业务状态")
     private Integer status;
 
     /**
      * 响应消息
      */
-    @ApiModelProperty("响应消息")
     private String msg;
 
     /**
      * 响应中的数据
      */
-    @ApiModelProperty("响应中的数据")
     private Object data;
 
     /**

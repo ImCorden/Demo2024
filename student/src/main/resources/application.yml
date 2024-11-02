@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: demo2024-student-server
+    name: StudentServer
   cloud:
     nacos:
       server-addr: 192.168.50.240:8848
@@ -76,3 +76,6 @@ knife4j:
     language: zh_cn
     # 对于调试中的请求参数是否缓存进行开启配置，该参数默认为true
     enable-request-cache: true
+
+logging:
+  config: classpath:logback.xml

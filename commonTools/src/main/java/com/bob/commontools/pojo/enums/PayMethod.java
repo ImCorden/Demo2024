@@ -1,4 +1,4 @@
-package pojo.enums;
+package com.bob.commontools.pojo.enums;
 
 /**
  * @author tim

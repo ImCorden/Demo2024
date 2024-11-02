@@ -1,4 +1,4 @@
-package utils;
+package com.bob.commontools.utils;
 
 /**
  * 通用脱敏工具类
