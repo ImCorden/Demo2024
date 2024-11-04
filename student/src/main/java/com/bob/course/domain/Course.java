@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.annotation.Version;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,6 +52,7 @@ public class Course implements Serializable {
 
     @Schema(description = "课程时长")
     @TableField("course_time")
+    @JsonFormat(pattern = "HH:mm:ss",locale = "zh",timezone = "GMT+8")
     private LocalTime courseTime;
 
     @Schema(description = "老师Id")
@@ -71,6 +74,7 @@ public class Course implements Serializable {
 
     @Schema(description = "创建时间")
     @TableField("created_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
     private LocalDateTime createdTime;
 
     @Schema(description = "更新人")
@@ -79,6 +83,7 @@ public class Course implements Serializable {
 
     @Schema(description = "更新时间")
     @TableField("updated_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
     private LocalDateTime updatedTime;
 
     @Schema(description = "删除标识(0未删除，1删除)")
