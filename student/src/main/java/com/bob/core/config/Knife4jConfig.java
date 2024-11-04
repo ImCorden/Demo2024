@@ -21,8 +21,8 @@ public class Knife4jConfig {
     public OpenAPI openAPI(){
         return new OpenAPI()
                 .info(new Info()
-                        .title("Knife4j标题")
-                        .description("Knife4j说明")
+                        .title("Student Server")
+                        .description("Student 接口")
                         .version("v1")
                         .contact(new Contact().name("bob").email("bob@gmail.com"))
                         .license(new License().name("Apache 2.0").url("http://springdoc.org"))

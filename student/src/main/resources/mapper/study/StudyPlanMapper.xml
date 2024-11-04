@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bob.study.mapper.StudyPlanMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bob.study.domain.StudyPlan">
+        <result column="id" property="id" />
+        <result column="plan_name" property="planName" />
+        <result column="plan_year" property="planYear" />
+        <result column="plan_desc" property="planDesc" />
+        <result column="exam_id" property="examId" />
+        <result column="exam_type" property="examType" />
+        <result column="ordered_study_state" property="orderedStudyState" />
+        <result column="sale_type" property="saleType" />
+        <result column="price" property="price" />
+        <result column="start_state" property="startState" />
+        <result column="revision" property="revision" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, plan_name, plan_year, plan_desc, exam_id, exam_type, ordered_study_state, sale_type, price, start_state, revision, created_by, created_time, updated_by, updated_time, del_flag
+    </sql>
+
+</mapper>

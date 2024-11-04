@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bob.study.mapper.StudyPlanCourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bob.study.domain.StudyPlanCourse">
+        <result column="id" property="id" />
+        <result column="study_plan_id" property="studyPlanId" />
+        <result column="course_id" property="courseId" />
+        <result column="course_name" property="courseName" />
+        <result column="course_img" property="courseImg" />
+        <result column="unit" property="unit" />
+        <result column="study_plan_course_type" property="studyPlanCourseType" />
+        <result column="exam_id" property="examId" />
+        <result column="price" property="price" />
+        <result column="revision" property="revision" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, study_plan_id, course_id, course_name, course_img, unit, study_plan_course_type, exam_id, price, revision, created_by, created_time, updated_by, updated_time, del_flag
+    </sql>
+
+</mapper>

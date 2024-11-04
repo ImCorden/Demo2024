@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author Bob
- * @since 2024-11-01
+ * @since 2024-11-04
  */
 @RestController
 @RequestMapping("/student/studentRegistration")

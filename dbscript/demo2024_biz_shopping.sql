@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 31/10/2024 15:38:14
+ Date: 04/11/2024 18:11:03
 */
 
 SET NAMES utf8mb4;
@@ -57,6 +57,28 @@ CREATE TABLE `cart_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='购物车商品详情';
 
 -- ----------------------------
+-- Table structure for order
+-- ----------------------------
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
+  `order_id` bigint NOT NULL COMMENT '主键',
+  `student_id` bigint DEFAULT NULL COMMENT '学生Id',
+  `order_state` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '订单状态（OPEN，CLOSE）',
+  `total_price` decimal(32,8) DEFAULT NULL COMMENT '总价',
+  `pay_state` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付状态(UNPAY,PAYED,CANCEL)',
+  `pay_type` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付类型',
+  `pay_time` datetime DEFAULT NULL COMMENT '支付时间',
+  `close_time` datetime DEFAULT NULL COMMENT '订单关闭时间',
+  `revision` int DEFAULT NULL COMMENT '乐观锁',
+  `created_by` bigint DEFAULT NULL COMMENT '创建人',
+  `created_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `updated_by` bigint DEFAULT NULL COMMENT '更新人',
+  `updated_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标识(0未删除，1删除)',
+  PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单表';
+
+-- ----------------------------
 -- Table structure for order_item
 -- ----------------------------
 DROP TABLE IF EXISTS `order_item`;
@@ -79,28 +101,6 @@ CREATE TABLE `order_item` (
   `del_flag` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标识(0未删除，1删除)',
   PRIMARY KEY (`order_item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单内商品';
-
--- ----------------------------
--- Table structure for orders
--- ----------------------------
-DROP TABLE IF EXISTS `orders`;
-CREATE TABLE `orders` (
-  `order_id` bigint NOT NULL COMMENT '主键',
-  `student_id` bigint DEFAULT NULL COMMENT '学生Id',
-  `order_state` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '订单状态（OPEN，CLOSE）',
-  `total_price` decimal(32,8) DEFAULT NULL COMMENT '总价',
-  `pay_state` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付状态(UNPAY,PAYED,CANCEL)',
-  `pay_type` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付类型',
-  `pay_time` datetime DEFAULT NULL COMMENT '支付时间',
-  `close_time` datetime DEFAULT NULL COMMENT '订单关闭时间',
-  `revision` int DEFAULT NULL COMMENT '乐观锁',
-  `created_by` bigint DEFAULT NULL COMMENT '创建人',
-  `created_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_by` bigint DEFAULT NULL COMMENT '更新人',
-  `updated_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `del_flag` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标识(0未删除，1删除)',
-  PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单表';
 
 -- ----------------------------
 -- Table structure for pay

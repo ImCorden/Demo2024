@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bob.order.mapper.OrderItemMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bob.order.domain.OrderItem">
+        <id column="order_item_id" property="orderItemId" />
+        <result column="order_id" property="orderId" />
+        <result column="student_id" property="studentId" />
+        <result column="item_id" property="itemId" />
+        <result column="item_type" property="itemType" />
+        <result column="item_name" property="itemName" />
+        <result column="item_pic_url" property="itemPicUrl" />
+        <result column="item_price" property="itemPrice" />
+        <result column="item_discount_price" property="itemDiscountPrice" />
+        <result column="item_num" property="itemNum" />
+        <result column="revision" property="revision" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        order_item_id, order_id, student_id, item_id, item_type, item_name, item_pic_url, item_price, item_discount_price, item_num, revision, created_by, created_time, updated_by, updated_time, del_flag
+    </sql>
+
+</mapper>
