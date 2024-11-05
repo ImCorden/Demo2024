@@ -10,6 +10,26 @@ spring:
       discovery:
         namespace: demo2024-ff70-43c5-89b6-06110ac8856a
         group: demo2024
+    stream:
+      rocketmq:
+        binder:
+          name-server: 192.168.50.241:9876
+          enable-msg-trace: true
+        bindings:
+          registration-out-0:
+            producer:
+              enable: true
+              producerType: Normal
+      bindings:
+        ## 新版本固定格式  channel名字-{out/in}-{index}
+        registration-out-0:
+          destination: registration-stream
+          group: registration-group
+        registration-in-0:
+          destination: registration-stream
+          group: registration-group
+
+
   datasource:
     type: com.mysql.cj.jdbc.MysqlDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -38,8 +38,13 @@ public class CourseController {
     @Operation(summary = "分页List")
     @PostMapping("listByPage")
     public JsonResult listCourse(@RequestBody PageCourseVO pageCourseVO) {
-        List<Course> list = courseService.list(Page.of(pageCourseVO.getCurrent(), pageCourseVO.getSize()));
-        return JsonResult.ok(list);
+        Page<Course> page = courseService.page(
+                Page.of(
+                        pageCourseVO.getCurrent(),
+                        pageCourseVO.getSize()
+                )
+        );
+        return JsonResult.ok(page);
     }
 
 }
