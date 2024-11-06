@@ -29,7 +29,6 @@ spring:
           destination: registration-stream
           group: registration-group
 
-
   datasource:
     type: com.mysql.cj.jdbc.MysqlDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.integration.support.MessageBuilder;
 
 import java.util.function.Consumer;
 
@@ -36,9 +38,9 @@ public class RegistrationConsumer {
     public Consumer<StudentRegistrationProvinceBO> registration() {
         return message -> {
             log.info("-------------------------------------------------------------RegistrationConsumer接到消息：{}", message);
+            throw new RuntimeException(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>error");
             studentRegistrationService.registerStudent(message);
         };
     }
-
 
 }
