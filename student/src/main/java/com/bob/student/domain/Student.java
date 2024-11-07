@@ -4,11 +4,10 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * <p>
@@ -61,6 +60,7 @@ public class Student implements Serializable {
 
     @Schema(description = "创建时间")
     @TableField(value = "created_time",fill = FieldFill.INSERT)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
     private LocalDateTime createdTime;
 
     @Schema(description = "更新人")
@@ -69,9 +69,10 @@ public class Student implements Serializable {
 
     @Schema(description = "更新时间")
     @TableField(value = "updated_time",fill = FieldFill.UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",locale = "zh",timezone = "GMT+8")
     private LocalDateTime updatedTime;
 
-    @Schema(description = "删除标识")
+    @Schema(description = "删除标识(0未删除，1删除)")
     @TableField("del_flag")
     @TableLogic
     private String delFlag;

@@ -1,23 +1,17 @@
 package com.bob.student.stream;
 
 
-import com.bob.commontools.utils.ConvertUtil;
+import com.bob.commontools.utils.GsonHelper;
 import com.bob.core.pojo.Constant;
 import com.bob.student.bo.StudentRegistrationProvinceBO;
 import com.bob.student.service.StudentRegistrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.impl.consumer.ConsumeMessageConcurrentlyService;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.support.ErrorMessage;
 
-import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Consumer;
 
 /**
@@ -64,7 +58,7 @@ public class RegistrationStudentConsumer {
         return v -> {
             String msg = new String((byte[]) v.getOriginalMessage().getPayload());
             String localizedMessage = v.getPayload().getCause().getLocalizedMessage();
-            String HeadersJson = ConvertUtil.beanToJson(v.getOriginalMessage().getHeaders());
+            String HeadersJson = GsonHelper.object2Json(v.getOriginalMessage().getHeaders());
 
             log.error(Constant.LOG_STYLE,"Registration Student Consumer 消费异常");
             log.error("原始消息：{}", msg);

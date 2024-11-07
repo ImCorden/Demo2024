@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.stereotype.Component;
 
 /**
  * @ClassName : StreamProducer
@@ -18,7 +18,7 @@ import org.springframework.messaging.support.MessageBuilder;
  * @Date : 2024/11/7 09:09
  * @Version : 1.0
  **/
-@Configuration
+@Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class StreamProducer {

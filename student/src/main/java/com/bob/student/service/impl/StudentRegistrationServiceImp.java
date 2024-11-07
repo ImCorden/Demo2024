@@ -4,7 +4,7 @@ package com.bob.student.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bob.commontools.pojo.enums.YesOrNo;
-import com.bob.commontools.utils.ConvertUtil;
+import com.bob.commontools.utils.GsonHelper;
 import com.bob.core.pojo.Constant;
 import com.bob.student.domain.Student;
 import com.bob.student.service.StudentService;
@@ -55,7 +55,7 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
         );
         // 不存在发送Msg
         if (res.isEmpty()) {
-            return streamProducer.sendSyncSingleMsg(ConvertUtil.beanToJson(studentRegistrationProvinceBO));
+            return streamProducer.sendSyncSingleMsg(GsonHelper.object2Json(studentRegistrationProvinceBO));
         }
         return false;
     }

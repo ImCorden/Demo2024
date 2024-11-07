@@ -1,15 +1,24 @@
 server:
   port: 11000
-
 spring:
   application:
     name: ShoppingServer
-  cloud:
-    nacos:
-      server-addr: 192.168.50.240:8848
-      discovery:
-        namespace: demo2024-ff70-43c5-89b6-06110ac8856a
-        group: demo2024
+  data:
+    redis:
+      host: 192.168.50.81
+      port: 6379
+      password: 123456
+      database: 0
+      timeout: 10000
+      ssl: false
+      client-type: jedis
+      jedis:
+        pool:
+          enabled: true
+          max-active: 10
+          max-wait: 10000
+          max-idle: 10
+          min-idle: 0
   datasource:
     type: com.mysql.cj.jdbc.MysqlDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -31,17 +40,12 @@ spring:
       max-lifetime: 1800000
       #用于测试连接是否可用的查询语句
       connection-test-query: select 1
-
-
-
-
-
-
-
-
-
-
-
+  cloud:
+    nacos:
+      server-addr: 192.168.50.240:8848
+      discovery:
+        namespace: demo2024-ff70-43c5-89b6-06110ac8856a
+        group: demo2024
 
 
 
