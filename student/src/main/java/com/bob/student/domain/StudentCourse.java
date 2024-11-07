@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,10 +18,9 @@ import lombok.Setter;
  * </p>
  *
  * @author Bob
- * @since 2024-11-04
+ * @since 2024-11-07
  */
 @Data
-@Builder
 @TableName("student_course")
 @Schema(name = "StudentCourse", description = "学生课程")
 public class StudentCourse implements Serializable {
@@ -41,9 +39,13 @@ public class StudentCourse implements Serializable {
     @TableField("registration_id")
     private Long registrationId;
 
-    @Schema(description = "学习计划课程id")
+    @Schema(description = "学习计划id")
     @TableField("study_plan_id")
     private Long studyPlanId;
+
+    @Schema(description = "学习计划课程id")
+    @TableField("study_plan_course_id")
+    private Long studyPlanCourseId;
 
     @Schema(description = "课程名字")
     @TableField("course_name")

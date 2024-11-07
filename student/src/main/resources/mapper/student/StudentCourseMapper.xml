@@ -8,6 +8,7 @@
         <result column="student_id" property="studentId" />
         <result column="registration_id" property="registrationId" />
         <result column="study_plan_id" property="studyPlanId" />
+        <result column="study_plan_course_id" property="studyPlanCourseId" />
         <result column="course_name" property="courseName" />
         <result column="course_img" property="courseImg" />
         <result column="unit" property="unit" />
@@ -22,7 +23,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, student_id, registration_id, study_plan_id, course_name, course_img, unit, study_plan_course_type, revision, created_by, created_time, updated_by, updated_time, del_flag
+        id, student_id, registration_id, study_plan_id, study_plan_course_id, course_name, course_img, unit, study_plan_course_type, revision, created_by, created_time, updated_by, updated_time, del_flag
     </sql>
 
 </mapper>
