@@ -88,3 +88,9 @@ knife4j:
 
 logging:
   config: classpath:logback.xml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
