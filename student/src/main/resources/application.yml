@@ -4,31 +4,6 @@ server:
 spring:
   application:
     name: StudentServer
-  cloud:
-    nacos:
-      server-addr: 192.168.50.240:8848
-      discovery:
-        namespace: demo2024-ff70-43c5-89b6-06110ac8856a
-        group: demo2024
-    stream:
-      rocketmq:
-        binder:
-          name-server: 192.168.50.241:9876
-          enable-msg-trace: true
-        bindings:
-          registration-out-0:
-            producer:
-              enable: true
-              producerType: Normal
-      bindings:
-        ## 新版本固定格式  channel名字-{out/in}-{index}
-        registration-out-0:
-          destination: registration-stream
-          group: registration-group
-        registration-in-0:
-          destination: registration-stream
-          group: registration-group
-
   datasource:
     type: com.mysql.cj.jdbc.MysqlDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -50,6 +25,50 @@ spring:
       max-lifetime: 1800000
       #用于测试连接是否可用的查询语句
       connection-test-query: select 1
+  cloud:
+    nacos:
+      server-addr: 192.168.50.240:8848
+      discovery:
+        namespace: demo2024-ff70-43c5-89b6-06110ac8856a
+        group: demo2024
+    stream:
+      # 必须定义
+      function:
+        definition: regSave;myHandler;
+      # RocketMQ 个性化配置(https://sca.aliyun.com/docs/2023/user-guide/rocketmq/quick-start/?spm=5176.29160081.0.0.74805c72LbrCmb)
+      rocketmq:
+        binder:
+          name-server: 192.168.50.241:9876
+          enable-msg-trace: true
+        bindings:
+          reg-out-0:
+            producer:
+              retryTimesWhenSendFailed: 1 # 失败重试次数
+              producerType: Normal # 普通消息，还是事务消息（Trans）
+          regSave-in-0:
+            consumer:
+              delayLevelWhenNextConsume: 0
+            # subscription: 'TagA || TagC || TagD'
+            # push:
+            #  orderly: true
+      # Stream binding 配置
+      bindings:
+        reg-out-0:
+          destination: reg-topic
+          group: reg-p-group
+          content-type: application/json
+          binder: rocketmq
+        regSave-in-0:
+          destination: reg-topic
+          group: reg-c-group
+          content-type: application/json
+          binder: rocketmq
+          consumer:
+            max-attempts: 1
+          error-handler-definition: myHandler
+
+
+
 
 
 

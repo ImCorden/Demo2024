@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,9 +18,8 @@ import lombok.Setter;
  * @author Bob
  * @since 2024-11-04
  */
+@Data
 @Builder
-@Getter
-@Setter
 @TableName("student")
 @Schema(name = "Student", description = "学生表")
 public class Student implements Serializable {

@@ -5,13 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bob.commontools.pojo.enums.YesOrNo;
 import com.bob.commontools.utils.ConvertUtil;
+import com.bob.core.pojo.Constant;
 import com.bob.student.domain.Student;
 import com.bob.student.service.StudentService;
-import com.bob.student.stream.RegistrationProcessor;
 import com.bob.student.bo.StudentRegistrationProvinceBO;
 import com.bob.student.domain.StudentRegistration;
 import com.bob.student.mapper.StudentRegistrationMapper;
 import com.bob.student.service.StudentRegistrationService;
+import com.bob.student.stream.StreamProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrationMapper, StudentRegistration> implements StudentRegistrationService {
 
-    private final RegistrationProcessor registrationProcrssor;
+    private final StreamProducer streamProducer;
     private final StudentService studentService;
 
     /**
@@ -54,7 +55,7 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
         );
         // 不存在发送Msg
         if (res.isEmpty()) {
-            return registrationProcrssor.sendMessage(ConvertUtil.beanToJson(studentRegistrationProvinceBO));
+            return streamProducer.sendSyncSingleMsg(ConvertUtil.beanToJson(studentRegistrationProvinceBO));
         }
         return false;
     }
@@ -71,24 +72,25 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
         // 保存学生信息
         List<Student> res = studentService.list(new LambdaQueryWrapper<Student>()
                 .eq(Student::getIdentityCode, studentRegistrationProvinceBO.getIdentityCode()));
-        Student stuSave = Student.builder()
-                .identityCode(studentRegistrationProvinceBO.getIdentityCode())
-                .build();
+        Student stu = Student.builder().build();
         if (res.isEmpty()) {
-            studentService.save(stuSave);
-            log.info("#################################################################Saving Student to DB######");
+            stu =  Student.builder().identityCode(studentRegistrationProvinceBO.getIdentityCode()).build();
+            studentService.save(stu);
+            log.info(Constant.LOG_STYLE,"Saving Student to DB");
+        }else {
+            stu = res.get(0);
         }
         // 保存报名信息
         boolean save = this.save(StudentRegistration.builder()
-                .studentId(stuSave.getId())
+                .studentId(stu.getId())
                 .identityCode(studentRegistrationProvinceBO.getIdentityCode())
                 .year(studentRegistrationProvinceBO.getYear())
                 .registrationNum(studentRegistrationProvinceBO.getRegistrationNum())
                         .used(YesOrNo.NO.type)
                 .build());
-        log.info("#################################################################Saving StudentRegistration to DB######");
+        log.info(Constant.LOG_STYLE,"Saving StudentRegistration to DB");
         if (!save) {
-            log.info("----------------------------------------------------------------------------保存出错，插入log，人工补偿");
+            log.error(Constant.LOG_STYLE,"保存出错，插入log，人工补偿");
         }
     }
 

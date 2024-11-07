@@ -6,36 +6,39 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.stereotype.Component;
 
 /**
- * @ClassName : RegistrationProcrssor
- * @Description : 省厅学生注册后续流程MQ生产者
+ * @ClassName : StreamProducer
+ * @Description : TODO
+ *
+ *
  * @Author : Bob
- * @Date : 2024/11/5 14:13
+ * @Date : 2024/11/7 09:09
  * @Version : 1.0
  **/
-
-@Component
+@Configuration
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
-public class RegistrationProcessor {
+public class StreamProducer {
 
     private final StreamBridge streamBridge;
 
     /**
-     * 发送消息
+     * 发送普通同步消息（生产者）
      * <p>
      *
      * @return : boolean
      * @params : [message]
      **/
-    public boolean sendMessage(String message) {
+    public boolean sendSyncSingleMsg(String message) {
         log.info("-------------------------------------------------------------RegistrationProcessor准备开始发送消息：{}", message);
         return streamBridge.send(
                 Constant.REGISTERATION_PROCRESSOR,
                 MessageBuilder.withPayload(message).build()
         );
     }
+
+
 }

@@ -13,5 +13,7 @@ package com.bob.core.pojo;
 public class Constant {
 
     /** 省厅注册消息生产者 */
-    public static final String REGISTERATION_PROCRESSOR = "registration-out-0";
+    public static final String REGISTERATION_PROCRESSOR = "reg-out-0";
+    /** log 样式 */
+    public static final String LOG_STYLE = "#################################################################{}######";
 }
