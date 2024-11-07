@@ -65,17 +65,23 @@ public class MyBatisPlusCodeGenerator {
                         .versionColumnName("revision")
                         .naming(NamingStrategy.underline_to_camel)
                         .columnNaming(NamingStrategy.underline_to_camel)
+                        // 打开覆盖，生成前需要根据情况自行开启或关闭
+                        .enableFileOverride()
 
                         // Controller策略
                         .controllerBuilder()
                         // 生成@RestController注解
                         .enableRestStyle()
+                        // 打开覆盖，生成前需要根据情况自行开启或关闭
+                        // .enableFileOverride()
 
                         // Service策略
                         .serviceBuilder()
                         // Service java类命名更改
                         .formatServiceFileName("%sService")
                         .formatServiceImplFileName("%sServiceImp")
+                        // 打开覆盖，生成前需要根据情况自行开启或关闭
+                        // .enableFileOverride()
 
                         // Mapper策略
                         .mapperBuilder()
@@ -83,6 +89,8 @@ public class MyBatisPlusCodeGenerator {
                         .enableBaseResultMap()
                         .formatMapperFileName("%sMapper")
                         .formatXmlFileName("%sMapper")
+                        // 打开覆盖，生成前需要根据情况自行开启或关闭
+                        .enableFileOverride()
                         .build()
 
                 )
