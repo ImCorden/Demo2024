@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -29,7 +30,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         log.info("--------MybatisPlus Auto Insert Default Value");
-        this.setFieldValByName("createdTime", new Date(), metaObject);
+        this.setFieldValByName("createdTime", LocalDateTime.now(), metaObject);
         this.setFieldValByName("revision", 0, metaObject);
         this.setFieldValByName("delFlag", YesOrNo.NO.type, metaObject);
         // this.setFieldValByName("updateTime", new Date(), metaObject);
@@ -43,6 +44,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         log.info("--------MybatisPlus Auto Update Default Value");
-        this.setFieldValByName("updatedTime", new Date(), metaObject);
+        this.setFieldValByName("updatedTime", LocalDateTime.now(), metaObject);
     }
 }

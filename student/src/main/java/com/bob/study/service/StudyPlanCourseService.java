@@ -1,5 +1,6 @@
 package com.bob.study.service;
 
+import com.bob.study.bo.StudyPlanCourseSelectBO;
 import com.bob.study.domain.StudyPlanCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface StudyPlanCourseService extends IService<StudyPlanCourse> {
 
+    /**
+     * 查询课程信息并添加购物车
+     * <p>
+     * @params : [studyPlanCourseSelectBO]
+     * @return : boolean
+     **/
+    boolean findCourseInfoAndAddToCart(StudyPlanCourseSelectBO studyPlanCourseSelectBO);
 }

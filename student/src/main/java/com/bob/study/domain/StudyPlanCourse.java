@@ -1,12 +1,12 @@
 package com.bob.study.domain;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -64,24 +64,26 @@ public class StudyPlanCourse implements Serializable {
     private BigDecimal price;
 
     @Schema(description = "乐观锁")
-    @TableField("revision")
+    @TableField(value = "revision", fill = FieldFill.INSERT_UPDATE)
     @Version
     private Integer revision;
 
     @Schema(description = "创建人")
-    @TableField("created_by")
+    @TableField(value = "created_by", fill = FieldFill.INSERT)
     private Long createdBy;
 
     @Schema(description = "创建时间")
-    @TableField("created_time")
+    @TableField(value = "created_time", fill = FieldFill.INSERT)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
     private LocalDateTime createdTime;
 
     @Schema(description = "更新人")
-    @TableField("updated_by")
+    @TableField(value = "updated_by", fill = FieldFill.UPDATE)
     private Long updatedBy;
 
     @Schema(description = "更新时间")
-    @TableField("updated_time")
+    @TableField(value = "updated_time", fill = FieldFill.UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
     private LocalDateTime updatedTime;
 
     @Schema(description = "删除标识(0未删除，1删除)")

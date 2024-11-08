@@ -2,6 +2,9 @@ package com.bob.cart.service;
 
 import com.bob.cart.domain.CartItem;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-11-04
  */
 public interface CartItemService extends IService<CartItem> {
-
+    /**
+     * 向购物车加商品
+     * <p>
+     *
+     * @return : boolean
+     * @params : [itemBOList]
+     **/
+    boolean addItemToCart(List<StudyPlanCourseCartItemBO> itemBOList);
 }

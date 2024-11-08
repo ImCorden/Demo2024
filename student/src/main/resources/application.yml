@@ -82,6 +82,24 @@ spring:
           consumer:
             max-attempts: 1
           error-handler-definition: myHandler
+    openfeign:
+      compression:
+        request:
+          enabled: true
+          min-request-size: 2048 # 请求最小阈值
+          mime-types: text/xml,application/xml,application/json # 支持的媒体类型列表
+      httpclient:
+        enabled: true
+        max-connections: 200 # feign最大连接数
+        max-connections-per-route: 60 # feign单个路径最大连接数(每个Api地址)
+      client:
+        config:
+          default:
+            logger-level: FULL
+    loadbalancer:
+      eager-load:
+        clients: ShoppingServer
+
 
 
 
@@ -138,6 +156,8 @@ knife4j:
 
 logging:
   config: classpath:logback.xml
+  level:
+    com.bob.*: debug
 
 management:
   endpoints:

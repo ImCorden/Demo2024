@@ -13,4 +13,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CartService extends IService<Cart> {
 
+    /**
+     * 按照StudentId查找购物车，没有的时候进行创建
+     * <p>
+     * @params : [studentId]
+     * @return : com.bob.cart.domain.Cart
+     **/
+    Cart findCartOrCreateByStudentId(Long studentId);
 }
