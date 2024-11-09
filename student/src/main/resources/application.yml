@@ -97,8 +97,15 @@ spring:
           default:
             logger-level: FULL
     loadbalancer:
+      enabled: true
       eager-load:
         clients: ShoppingServer
+      cache:
+        enabled: true
+        ttl: 2s
+      nacos:
+        enabled: true
+
 
 
 

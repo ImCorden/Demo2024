@@ -60,9 +60,7 @@ public class CartItemController {
     @GetMapping("findByStudentId/{studentId}")
     public JsonResult findByStudentId(@PathVariable Long studentId) {
         return JsonResult.ok(
-                cartItemService.list(
-                        new LambdaQueryWrapper<CartItem>()
-                                .eq(CartItem::getStudentId, studentId))
+                cartItemService.list(new LambdaQueryWrapper<CartItem>().eq(CartItem::getStudentId, studentId))
         );
     }
 
