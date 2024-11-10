@@ -2,6 +2,7 @@ package com.bob.cart.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -25,7 +26,8 @@ import lombok.*;
 @Schema(name = "Cart", description = "购物车")
 public class Cart implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = -4120034467667702112L;
 
     @Schema(description = "主键")
     @TableId("cart_id")

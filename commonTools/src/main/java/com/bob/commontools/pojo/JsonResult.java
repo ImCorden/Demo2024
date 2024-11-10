@@ -77,6 +77,10 @@ public class JsonResult {
         return new JsonResult(500, msg, null);
     }
 
+    public static JsonResult errorCodeAndMsg(Integer status, String msg) {
+        return new JsonResult(status, msg, null);
+    }
+
     public static JsonResult errorMap(Object data) {
         return new JsonResult(501, "error", data);
     }

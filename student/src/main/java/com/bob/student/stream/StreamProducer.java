@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @ClassName : StreamProducer
- * @Description : TODO
+ * @Description : 发送普通同步消息
  *
  *
  * @Author : Bob

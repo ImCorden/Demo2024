@@ -50,7 +50,7 @@ spring:
     stream:
       # 必须定义
       function:
-        definition: regSave;myHandler;
+        definition: regSave;myHandler; # 必须定义：不然会对不上Spring Function
       # RocketMQ 个性化配置(https://sca.aliyun.com/docs/2023/user-guide/rocketmq/quick-start/?spm=5176.29160081.0.0.74805c72LbrCmb)
       rocketmq:
         binder:
@@ -69,19 +69,19 @@ spring:
             #  orderly: true
       # Stream binding 配置
       bindings:
-        reg-out-0:
+        reg-out-0: # 原来OutPut的新配置写法
           destination: reg-topic
           group: reg-p-group
           content-type: application/json
           binder: rocketmq
-        regSave-in-0:
+        regSave-in-0: # 原来Input的新配置写法
           destination: reg-topic
           group: reg-c-group
           content-type: application/json
           binder: rocketmq
           consumer:
-            max-attempts: 1
-          error-handler-definition: myHandler
+            max-attempts: 1 # 不允许Spring Cloud Stream的投递失败重试（设置为1为不重试）
+          error-handler-definition: myHandler # 错误失败的处理类com.bob.student.stream.RegistrationStudentConsumer.myHandler
     openfeign:
       compression:
         request:
@@ -96,20 +96,35 @@ spring:
         config:
           default:
             logger-level: FULL
+          ShoppingServer:
+            request-interceptors:
+              - com.bob.feignClients.requestInterceptor.CartItemFeignInterceptor
+            decoder: com.bob.feignClients.decoder.CartItemDecoder # Http状态响应码<400处理响应Decoder
+            error-decoder: com.bob.feignClients.decoder.CartItemErrorDecoder # 400<Http状态响应<=500,处理响应ErrorDecoder
+    # 移除Ribbon后，使用Loadbalancer的配置
     loadbalancer:
       enabled: true
-      eager-load:
+      eager-load: # 饥饿加载的客户端
         clients: ShoppingServer
       cache:
-        enabled: true
-        ttl: 2s
+        enabled: true # 是否开启缓存
+        ttl: 2s # 缓存失效时间
       nacos:
+        enabled: true # 使用nacos权重需要开启
+    # Sentinel配置
+    sentinel:
+      enabled: true
+      transport:
+        dashboard: 192.168.50.240:8858
+        port: 8719
+      filter:
         enabled: true
-
-
-
-
-
+        url-patterns: /**
+      eager: true
+# OpenFeign 开启 Sentinel
+feign:
+  sentinel:
+    enabled: true
 
 
 

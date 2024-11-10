@@ -74,7 +74,6 @@ public class StudyPlanCourseServiceImp extends ServiceImpl<StudyPlanCourseMapper
                             .itemPicUrl(courseMap.get(courseId).getCourseImg())
                             .build();
                 }).toList();
-        JsonResult jsonResult = cartItemFeignClient.addCartItem(sendMsg);
-        return jsonResult.isOK();
+        return cartItemFeignClient.addCartItem(sendMsg);
     }
 }

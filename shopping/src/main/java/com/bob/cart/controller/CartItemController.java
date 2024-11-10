@@ -3,6 +3,7 @@ package com.bob.cart.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bob.cart.domain.CartItem;
 import com.bob.cart.service.CartItemService;
+import com.bob.commontools.exception.BusinessException;
 import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,6 +43,7 @@ public class CartItemController {
      **/
     @PostMapping("addItemToCart")
     public JsonResult addCartItem(@RequestBody List<StudyPlanCourseCartItemBO> itemBOList) {
+        // int i = 1/0;
         boolean res = cartItemService.addItemToCart(itemBOList);
         if (res) {
             return JsonResult.ok();

@@ -52,6 +52,7 @@
             <version>1.0.1</version> <!-- 根据Nacos客户端版本选择对应adapter版本 -->
         </dependency>
 
+        <!-- openfeign 依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -63,6 +64,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
 
         <!-- RocketMQ Spring Cloud Stream -->

@@ -3,10 +3,9 @@ package com.bob.feignClients;
 
 import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
-import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
+import com.bob.feignClients.fallbackFactory.CartItemFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -19,7 +18,9 @@ import java.util.List;
  * @Date : 2024/11/8 09:47
  * @Version : 1.0
  **/
-@FeignClient(name = "ShoppingServer")
+@FeignClient(
+        name = "ShoppingServer",
+        fallbackFactory = CartItemFeignClientFallbackFactory.class)
 public interface CartItemFeignClient {
 
     /**
@@ -28,6 +29,8 @@ public interface CartItemFeignClient {
      * @params : [itemBOList]
      * @return : com.bob.commontools.pojo.JsonResult
      **/
-    @PostMapping("/cart/cartItem/addItemToCart")
-    JsonResult addCartItem(List<StudyPlanCourseCartItemBO> itemBOList);
+    @PostMapping(
+            value = "/cart/cartItem/addItemToCart",
+            headers = "Content-Type=application/json;charset=UTF-8")
+    Boolean addCartItem(List<StudyPlanCourseCartItemBO> itemBOList);
 }

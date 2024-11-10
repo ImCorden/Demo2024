@@ -16,7 +16,7 @@ import org.springframework.core.env.Environment;
  * @Date : 2024/11/9 17:02
  * @Version : 1.0
  **/
-@Configuration
+// @Configuration
 public class CustomWeightLoadBalancerConfiguration {
 
     @Bean

@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @ClassName : StudyPlanCourseSelect
- * @Description : TODO
+ * @Description : 添加购物车item BO
  *
  *
  * @Author : Bob
