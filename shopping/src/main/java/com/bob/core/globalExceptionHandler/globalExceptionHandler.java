@@ -1,4 +1,4 @@
-package com.bob.globalExceptionHandler;
+package com.bob.core.globalExceptionHandler;
 
 
 import com.bob.commontools.exception.BusinessException;
