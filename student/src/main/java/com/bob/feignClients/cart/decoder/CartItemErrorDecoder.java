@@ -1,9 +1,7 @@
-package com.bob.feignClients.decoder;
+package com.bob.feignClients.cart.decoder;
 
 
 import com.bob.commontools.exception.BusinessException;
-import com.bob.commontools.pojo.JsonResult;
-import com.bob.commontools.utils.GsonHelper;
 import feign.Response;
 import feign.Util;
 import feign.codec.ErrorDecoder;

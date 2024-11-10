@@ -1,9 +1,8 @@
-package com.bob.feignClients.fallbackFactory;
+package com.bob.feignClients.cart.fallbackFactory;
 
 
-import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
-import com.bob.feignClients.CartItemFeignClient;
+import com.bob.feignClients.cart.CartItemFeignClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;

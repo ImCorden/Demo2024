@@ -98,9 +98,9 @@ spring:
             logger-level: FULL
           ShoppingServer:
             request-interceptors:
-              - com.bob.feignClients.requestInterceptor.CartItemFeignInterceptor
-            decoder: com.bob.feignClients.decoder.CartItemDecoder # Http状态响应码<400处理响应Decoder
-            error-decoder: com.bob.feignClients.decoder.CartItemErrorDecoder # 400<Http状态响应<=500,处理响应ErrorDecoder
+              - com.bob.feignClients.cart.requestInterceptor.CartItemFeignInterceptor
+            decoder: com.bob.feignClients.cart.decoder.CartItemDecoder # Http状态响应码<400处理响应Decoder
+            error-decoder: com.bob.feignClients.cart.decoder.CartItemErrorDecoder # 400<Http状态响应<=500,处理响应ErrorDecoder
     # 移除Ribbon后，使用Loadbalancer的配置
     loadbalancer:
       enabled: true

@@ -1,11 +1,10 @@
 package com.bob.study.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.bob.commontools.pojo.JsonResult;
 import com.bob.course.domain.Course;
 import com.bob.course.service.CourseService;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
-import com.bob.feignClients.CartItemFeignClient;
+import com.bob.feignClients.cart.CartItemFeignClient;
 import com.bob.study.bo.StudyPlanCourseSelectBO;
 import com.bob.study.domain.StudyPlanCourse;
 import com.bob.study.mapper.StudyPlanCourseMapper;

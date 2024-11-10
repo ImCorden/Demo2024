@@ -1,9 +1,8 @@
-package com.bob.feignClients;
+package com.bob.feignClients.cart;
 
 
-import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
-import com.bob.feignClients.fallbackFactory.CartItemFeignClientFallbackFactory;
+import com.bob.feignClients.cart.fallbackFactory.CartItemFeignClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 

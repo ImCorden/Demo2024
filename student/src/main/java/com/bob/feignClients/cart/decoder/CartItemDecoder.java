@@ -1,4 +1,4 @@
-package com.bob.feignClients.decoder;
+package com.bob.feignClients.cart.decoder;
 
 
 import com.bob.commontools.pojo.JsonResult;
