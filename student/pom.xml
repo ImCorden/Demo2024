@@ -41,6 +41,8 @@
         </dependency>
 
         <!-- spring cloud -->
+
+        <!-- nacos 服务发现 & 动态配置 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -50,6 +52,10 @@
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>logback-adapter</artifactId>
             <version>1.0.1</version> <!-- 根据Nacos客户端版本选择对应adapter版本 -->
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
         <!-- openfeign 依赖 -->
@@ -61,6 +67,7 @@
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-httpclient</artifactId>
         </dependency>
+        <!-- 去Ribbon后，引入Loadbalancer进行负载均衡 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>

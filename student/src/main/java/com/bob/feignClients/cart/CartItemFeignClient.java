@@ -19,6 +19,7 @@ import java.util.List;
  **/
 @FeignClient(
         name = "ShoppingServer",
+        path = "/cart/cartItem",
         fallbackFactory = CartItemFeignClientFallbackFactory.class)
 public interface CartItemFeignClient {
 
@@ -29,7 +30,7 @@ public interface CartItemFeignClient {
      * @return : com.bob.commontools.pojo.JsonResult
      **/
     @PostMapping(
-            value = "/cart/cartItem/addItemToCart",
+            value = "/addItemToCart",
             headers = "Content-Type=application/json;charset=UTF-8")
     Boolean addCartItem(List<StudyPlanCourseCartItemBO> itemBOList);
 }
