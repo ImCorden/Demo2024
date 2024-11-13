@@ -2,7 +2,7 @@ server:
   port: 11000
 spring:
   application:
-    name: ShoppingServer
+    name: shopping-server
   data:
     redis:
       host: 192.168.50.81

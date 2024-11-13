@@ -18,7 +18,7 @@ import java.util.List;
  * @Version : 1.0
  **/
 @FeignClient(
-        name = "ShoppingServer",
+        name = "shopping-server",
         path = "/cart/cartItem",
         fallbackFactory = CartItemFeignClientFallbackFactory.class)
 public interface CartItemFeignClient {
