@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableDiscoveryClient
 @EnableFeignClients
 @LoadBalancerClients({
-        @LoadBalancerClient(name = "ShoppingServer",
+        @LoadBalancerClient(name = "shopping-server",
                 configuration = com.alibaba.cloud.nacos.loadbalancer.NacosLoadBalancerClientConfiguration.class),
         @LoadBalancerClient(name = "DemoForMore",
                 configuration = com.alibaba.cloud.nacos.loadbalancer.NacosLoadBalancerClientConfiguration.class)

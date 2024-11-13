@@ -82,7 +82,7 @@ spring:
         config:
           default:
             logger-level: FULL
-          ShoppingServer:
+          shopping-server:
             request-interceptors:
               - com.bob.feignClients.cart.requestInterceptor.CartItemFeignInterceptor
             decoder: com.bob.feignClients.cart.decoder.CartItemDecoder # Http状态响应码<400处理响应Decoder
