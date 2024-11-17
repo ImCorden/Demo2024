@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 引用Spring Boot 默认日志配置 -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!-- 控制台日志打印格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d{HH:mm:ss}){faint}%clr([%5level]) %clr(%thread){yellow} %clr(%-40.40logger{39}){cyan} : %msg%n"/>
+    <!-- 日志输出到控制台 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 指定日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="console"/>
+    </root>
+
+
+</configuration>

@@ -1,0 +1,72 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: auth-server
+  config:
+    import:
+      - optional:nacos:auth-server.yml
+      - optional:nacos:redis-config.yml?group=common&refreshEnable=true
+  cloud:
+    nacos:
+      server-addr: 192.168.50.240:8848
+      discovery:
+        namespace: demo2024-ff70-43c5-89b6-06110ac8856a
+        group: demo2024
+      # 2022.0新配置
+      config:
+        group: demo2024
+        namespace: demo2024-ff70-43c5-89b6-06110ac8856a # 如果没有指定命令空间，则默认命令空间为PUBLIC
+        file-extension: yaml
+        encode: UTF-8
+        timeout: 5000 # 从nacos读取配置项的超时时间
+        max-retry: 3 # 长轮训重试次数
+        config-long-poll-timeout: 1000 # 长轮训超时时间
+        config-retry-time: 100000 # 重试时间
+        enable-remote-sync-config: true # nacos的扩展配置项，数字越大优先级越高,# 监听器首次添加时拉取远端配置,false
+        refresh-enabled: true # 开启监听和自动刷新
+        # prefix: 文件名前缀，默认是spring.application.name
+        extension-configs:
+          # 可以添加其他节点
+          - dataId: redis-config.yaml
+            group: common
+            refresh: true
+sa-token:
+  token-name: BobToken # token 名称（同时也是 cookie 名称）
+  timeout: 300 # token 有效期（单位：秒） 默认30天(2592000)，-1 代表永久有效
+  active-timeout: -1 # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
+  is-concurrent: false # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
+  is-share: true # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
+  token-style: simple-uuid # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  is-log: true # 是否输出操作日志
+  is-read-header: true
+  is-read-body: false
+  is-write-header: true
+
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+    lazy-loading-enabled: true
+    cache-enabled: true
+    aggressive-lazy-loading: false
+  mapper-locations: classpath:/mapper/*/*/*.xml
+  #  实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.bob.student.*.domain
+  global-config:
+    db-config:
+      logic-delete-field: del_flag # 逻辑删除字段
+      logic-delete-value: 1 # 逻辑删除值
+      logic-not-delete-value: 0 # 逻辑未删除值
+logging:
+  config: classpath:logback.xml
+  level:
+    com.bob.*: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
