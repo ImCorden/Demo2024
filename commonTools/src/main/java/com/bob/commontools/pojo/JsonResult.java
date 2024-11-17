@@ -1,6 +1,5 @@
 package com.bob.commontools.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -51,19 +50,10 @@ public class JsonResult {
      */
     private Object data;
 
-    /**
-     * // 不使用
-     */
-    @JsonIgnore
-    private String ok;
-
     public static JsonResult build(Integer status, String msg, Object data) {
         return new JsonResult(status, msg, data);
     }
 
-    public static JsonResult build(Integer status, String msg, Object data, String ok) {
-        return new JsonResult(status, msg, data, ok);
-    }
 
     public static JsonResult ok(Object data) {
         return new JsonResult(data);
@@ -101,13 +91,6 @@ public class JsonResult {
         this.status = status;
         this.msg = msg;
         this.data = data;
-    }
-
-    public JsonResult(Integer status, String msg, Object data, String ok) {
-        this.status = status;
-        this.msg = msg;
-        this.data = data;
-        this.ok = ok;
     }
 
     public JsonResult(Object data) {
