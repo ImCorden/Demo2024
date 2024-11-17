@@ -11,11 +11,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>student</module>
-        <module>shopping</module>
-        <module>commonTools</module>
         <module>gateway</module>
-        <module>auth</module>
+        <module>student-server</module>
+        <module>shopping-server</module>
+        <module>auth-server</module>
+        <module>common-tools</module>
     </modules>
 
     <properties>

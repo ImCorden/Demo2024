@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>auth</artifactId>
+    <artifactId>auth-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>auth</name>
-    <description>auth</description>
+    <name>auth-server</name>
+    <description>auth-server</description>
 
     <parent>
         <groupId>com.bob</groupId>
@@ -109,7 +109,7 @@
 
         <!-- 项目内组件/模块  -->
         <dependency>
-            <artifactId>commonTools</artifactId>
+            <artifactId>common-tools</artifactId>
             <groupId>com.bob</groupId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -129,7 +129,7 @@
 
         <!-- 项目内组件/模块  -->
         <dependency>
-            <artifactId>commonTools</artifactId>
+            <artifactId>common-tools</artifactId>
             <groupId>com.bob</groupId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

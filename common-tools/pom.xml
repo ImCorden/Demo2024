@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>commonTools</artifactId>
+    <artifactId>common-tools</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>commonTools</name>
-    <description>commonTools</description>
+    <name>common-tools</name>
+    <description>common-tools</description>
 
     <parent>
         <groupId>com.bob</groupId>
