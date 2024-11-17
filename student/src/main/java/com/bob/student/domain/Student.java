@@ -7,7 +7,10 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -15,10 +18,12 @@ import lombok.*;
  * </p>
  *
  * @author Bob
- * @since 2024-11-04
+ * @since 2024-11-14
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("student")
 @Schema(name = "Student", description = "学生表")
 public class Student implements Serializable {
@@ -29,6 +34,18 @@ public class Student implements Serializable {
     @TableId("id")
     private Long id;
 
+    @Schema(description = "身份证")
+    @TableField("identity_code")
+    private String identityCode;
+
+    @Schema(description = "密码")
+    @TableField("password")
+    private String password;
+
+    @Schema(description = "盐值")
+    @TableField("salt")
+    private String salt;
+
     @Schema(description = "真实姓名")
     @TableField("true_name")
     private String trueName;
@@ -37,17 +54,13 @@ public class Student implements Serializable {
     @TableField("nick_name")
     private String nickName;
 
-    @Schema(description = "头像地址")
-    @TableField("avatar_url")
-    private String avatarUrl;
-
-    @Schema(description = "身份证")
-    @TableField("identity_code")
-    private String identityCode;
-
     @Schema(description = "年龄")
     @TableField("age")
     private Integer age;
+
+    @Schema(description = "头像地址")
+    @TableField("avatar_url")
+    private String avatarUrl;
 
     @Schema(description = "乐观锁")
     @TableField(value = "revision",fill = FieldFill.INSERT_UPDATE)

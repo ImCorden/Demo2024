@@ -59,6 +59,7 @@ public class RedisConfig {
 
     /**
      * Jedis 配置
+     *
      * @return
      */
     @Bean
@@ -70,7 +71,7 @@ public class RedisConfig {
         GenericObjectPoolConfig<Object> poolConfig = new GenericObjectPoolConfig<>();
         poolConfig.setMaxIdle(maxIdle);
         poolConfig.setMinIdle(minIdle);
-        poolConfig.setMaxWaitMillis(maxWaitMillis);
+        poolConfig.setMaxWait(Duration.ofMillis(maxWaitMillis));
         // 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true
         poolConfig.setTestOnBorrow(true);
         // 是否启用pool的jmx管理功能, 默认true
@@ -94,6 +95,7 @@ public class RedisConfig {
 
     /**
      * RedisTemplate 配置
+     *
      * @param redisConnectionFactory
      * @return
      */
@@ -131,7 +133,7 @@ public class RedisConfig {
         // 解决LocalDateTime的序列化错误
         om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         om.registerModule(new JavaTimeModule());
-        return new Jackson2JsonRedisSerializer<>(om,Object.class);
+        return new Jackson2JsonRedisSerializer<>(om, Object.class);
     }
 }
 
