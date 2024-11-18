@@ -1,0 +1,14 @@
+rule:
+  # 不进行任何鉴权（不能进行动态配置）
+  excludes:
+    - /actuator/**
+    - /favicon.ico
+  # 如果路径与对应权限关系
+  permissions:
+    - uri: /stu/**
+      permission: student
+    - uri: /shop/**
+      permission: shopping
+  # 不需要登录鉴权，且不需要路径与对应关系Permission的鉴权
+  with-out-login-uri:
+    - /auth/student/student/login

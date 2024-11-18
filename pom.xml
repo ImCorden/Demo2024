@@ -11,7 +11,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>gateway</module>
+        <module>gateway-server</module>
         <module>student-server</module>
         <module>shopping-server</module>
         <module>auth-server</module>

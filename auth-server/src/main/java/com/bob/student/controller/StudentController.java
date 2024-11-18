@@ -8,6 +8,8 @@ import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bob.commontools.exception.BusinessException;
 import com.bob.commontools.pojo.JsonResult;
+import com.bob.commontools.utils.GsonHelper;
+import com.bob.commontools.utils.RedisOperator;
 import com.bob.student.domain.Student;
 import com.bob.student.mapper.StudentMapper;
 import com.bob.student.service.StudentRoleService;
@@ -39,6 +41,7 @@ public class StudentController {
 
     private final StudentService studentService;
     private final StudentRoleService studentRoleService;
+    private final RedisOperator redisOperator;
 
     /**
      * 登录接口
@@ -56,6 +59,8 @@ public class StudentController {
             String hashPwd = BCrypt.hashpw(password, salt);
             if (hashPwd.equals(pwd)) {
                 List<Long> roleIds = studentRoleService.getRoleIdsByStudentId(one.getId());
+                // 向Redis缓存用户权限
+                redisOperator.hset("UserRoles",String.valueOf(one.getId()), GsonHelper.object2Json(roleIds));
                 StpUtil.login(one.getId());
                 // 放入信息在Session中
                 StpUtil.getSession()
