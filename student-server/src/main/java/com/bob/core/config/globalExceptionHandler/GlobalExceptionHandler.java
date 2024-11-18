@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  **/
 @Slf4j
 @RestControllerAdvice
-public class globalExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = BusinessException.class)
     public JsonResult businessExceptionHandler(BusinessException exception) {

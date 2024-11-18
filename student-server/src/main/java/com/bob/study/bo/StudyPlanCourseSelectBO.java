@@ -29,8 +29,8 @@ public class StudyPlanCourseSelectBO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1868515553866592450L;
 
-    @Schema(description = "学生ID")
-    private Long studentId;
+    // @Schema(description = "学生ID")
+    // private Long studentId;
 
     @Schema(description = "所选课程Id")
     private List<Long> studyPlanCourseIds;

@@ -1,9 +1,16 @@
 package com.bob.feignClients.cart.requestInterceptor;
 
 
+import cn.hutool.core.util.ObjectUtil;
+import com.bob.commontools.pojo.BusinessConstants;
+import com.bob.core.config.aop.StudentHolder;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -19,26 +26,16 @@ import java.util.Objects;
 public class CartItemFeignInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate template) {
-        log.info("CartItemFeignInterceptor working ! and template = {}"
-                , new String(Objects.isNull(template.body()) ?
-                        "null".getBytes() : template.body()
-                        , StandardCharsets.UTF_8));
-        // 传递令牌
-        // RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes(); // 获取请求头参数
-        // if (requestAttributes != null){
-        //     HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-        //     if (request != null){
-        //         Enumeration<String> headerNames = request.getHeaderNames();
-        //         while (headerNames.hasMoreElements()){
-        //             String headerName = headerNames.nextElement();
-        //             if ("authorization".equals(headerName)){
-        //                 String headerValue = request.getHeader(headerName); // Bearer jwt
-        //
-        //                 //传递令牌
-        //                 template.header(headerName,headerValue);
-        //             }
-        //         }
-        //     }
-        // }
+
+        // 打印template信息
+        // log.info("CartItemFeignInterceptor working ! and template = {}"
+        //         , new String(Objects.isNull(template.body()) ?
+        //                 "null".getBytes() : template.body()
+        //                 , StandardCharsets.UTF_8));
+        Long studentId = StudentHolder.getId();
+        if (ObjectUtil.isNotNull(studentId)) {
+            template.header(BusinessConstants.HEADER_STUDENT_ID_KEY, String.valueOf(studentId));
+        }
+        log.info("--------CartItemFeignInterceptor 已经向Feign请求添加 Header : {}={}",BusinessConstants.HEADER_STUDENT_ID_KEY,studentId);
     }
 }

@@ -1,15 +1,14 @@
 package com.bob.cart.controller;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bob.cart.domain.CartItem;
 import com.bob.cart.service.CartItemService;
-import com.bob.commontools.exception.BusinessException;
 import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
+import com.bob.core.config.aop.StudentHolder;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +42,7 @@ public class CartItemController {
      **/
     @PostMapping("addItemToCart")
     public JsonResult addCartItem(@RequestBody List<StudyPlanCourseCartItemBO> itemBOList) {
+        Long studentId = StudentHolder.getId();
         // int i = 1/0;
         boolean res = cartItemService.addItemToCart(itemBOList);
         if (res) {

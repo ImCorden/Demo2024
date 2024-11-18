@@ -1,6 +1,7 @@
 package com.bob.study.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.bob.core.config.aop.StudentHolder;
 import com.bob.course.domain.Course;
 import com.bob.course.service.CourseService;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
@@ -46,7 +47,8 @@ public class StudyPlanCourseServiceImp extends ServiceImpl<StudyPlanCourseMapper
     @Override
     public boolean findCourseInfoAndAddToCart(StudyPlanCourseSelectBO studyPlanCourseSelectBO) {
 
-        Long studentId = studyPlanCourseSelectBO.getStudentId();
+        // Long studentId = studyPlanCourseSelectBO.getStudentId();
+        Long studentId = StudentHolder.getId();
         // 计划课程信息
         List<StudyPlanCourse> studyPlanCourseList = this.list(
                 new LambdaQueryWrapper<StudyPlanCourse>()
