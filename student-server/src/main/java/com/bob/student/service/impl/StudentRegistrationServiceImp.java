@@ -1,12 +1,15 @@
 package com.bob.student.service.impl;
 
 
+import cn.hutool.core.lang.UUID;
+import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bob.commontools.pojo.enums.YesOrNo;
 import com.bob.commontools.utils.GsonHelper;
 import com.bob.core.pojo.Constant;
 import com.bob.student.domain.Student;
+import com.bob.student.service.StudentRoleService;
 import com.bob.student.service.StudentService;
 import com.bob.student.bo.StudentRegistrationProvinceBO;
 import com.bob.student.domain.StudentRegistration;
@@ -37,6 +40,7 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
 
     private final StreamProducer streamProducer;
     private final StudentService studentService;
+    private final StudentRoleService studentRoleService;
 
     /**
      * 校验是否可以报名，可以报名，发送mq消息
@@ -74,9 +78,18 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
                 .eq(Student::getIdentityCode, studentRegistrationProvinceBO.getIdentityCode()));
         Student stu = Student.builder().build();
         if (res.isEmpty()) {
-            stu =  Student.builder().identityCode(studentRegistrationProvinceBO.getIdentityCode()).build();
+            String salt = BCrypt.gensalt();
+            String hashPwd = BCrypt.hashpw("123456", salt);
+            stu =  Student.builder()
+                    .identityCode(studentRegistrationProvinceBO.getIdentityCode())
+                    .trueName(studentRegistrationProvinceBO.getTrueName())
+                    .password(hashPwd)
+                    .salt(salt)
+                    .build();
             studentService.save(stu);
-            log.info(Constant.LOG_STYLE,"Saving Student to DB");
+            // 保存默认角色
+            studentRoleService.saveDefaultStudentRole(stu.getId());
+            log.info(Constant.LOG_STYLE,"Saving Student And StudentRole to DB");
         }else {
             stu = res.get(0);
         }

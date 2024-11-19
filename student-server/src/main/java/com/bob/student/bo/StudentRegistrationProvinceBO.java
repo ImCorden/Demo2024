@@ -44,4 +44,10 @@ public class StudentRegistrationProvinceBO implements Serializable {
     @Schema(description = "身份证")
     private String identityCode;
 
+    /**
+     * 姓名
+     */
+    @Schema(description = "姓名")
+    private String trueName;
+
 }
