@@ -17,7 +17,6 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.utils.GsonHelper;
-import com.bob.gateway.config.saToken.pojo.SaTokenUrlRule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

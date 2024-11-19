@@ -6,7 +6,7 @@ import com.bob.cart.domain.CartItem;
 import com.bob.cart.service.CartItemService;
 import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
-import com.bob.core.config.aop.StudentHolder;
+import com.bob.core.aop.StudentHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

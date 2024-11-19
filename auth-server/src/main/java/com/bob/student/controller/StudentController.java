@@ -7,9 +7,12 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bob.commontools.exception.BusinessException;
+import com.bob.commontools.pojo.BusinessConstants;
 import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.utils.GsonHelper;
 import com.bob.commontools.utils.RedisOperator;
+import com.bob.core.aop.NeedStudentInHeader;
+import com.bob.core.aop.StudentHolder;
 import com.bob.student.domain.Student;
 import com.bob.student.mapper.StudentMapper;
 import com.bob.student.service.StudentRoleService;
@@ -17,10 +20,7 @@ import com.bob.student.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +60,10 @@ public class StudentController {
             if (hashPwd.equals(pwd)) {
                 List<Long> roleIds = studentRoleService.getRoleIdsByStudentId(one.getId());
                 // 向Redis缓存用户权限
-                redisOperator.hset("UserRoles",String.valueOf(one.getId()), GsonHelper.object2Json(roleIds));
+                redisOperator.set(
+                        BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + String.valueOf(one.getId()),
+                        GsonHelper.object2Json(roleIds),
+                        BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_RENEW_TIME);
                 StpUtil.login(one.getId());
                 // 放入信息在Session中
                 StpUtil.getSession()
@@ -73,6 +76,24 @@ public class StudentController {
             return JsonResult.errorMsg("---密码错误");
         }
         return JsonResult.errorMsg("----未注册");
+    }
+
+    /**
+     * 退出接口
+     * <p>
+     * @params : []
+     * @return : com.bob.commontools.pojo.JsonResult
+     **/
+    @GetMapping("logout")
+    @NeedStudentInHeader
+    public JsonResult logOut(){
+        // 获取学生ID
+        Long studentId = StudentHolder.getId();
+        if (StpUtil.isLogin(studentId)){
+            StpUtil.logout(studentId);
+        }
+        redisOperator.del(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + studentId );
+        return JsonResult.ok();
     }
 
 }

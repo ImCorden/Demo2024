@@ -1,4 +1,4 @@
-package com.bob.core.config.aop;
+package com.bob.core.aop;
 
 
 /**

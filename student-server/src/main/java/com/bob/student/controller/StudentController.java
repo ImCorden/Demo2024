@@ -2,7 +2,7 @@ package com.bob.student.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bob.commontools.pojo.JsonResult;
-import com.bob.core.config.aop.StudentHolder;
+import com.bob.core.aop.StudentHolder;
 import com.bob.student.domain.Student;
 import com.bob.student.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;

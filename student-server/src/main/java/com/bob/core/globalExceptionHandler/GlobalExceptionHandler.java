@@ -1,4 +1,4 @@
-package com.bob.core.config.globalExceptionHandler;
+package com.bob.core.globalExceptionHandler;
 
 
 import com.bob.commontools.pojo.JsonResult;
