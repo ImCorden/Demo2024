@@ -7,6 +7,7 @@ import com.bob.cart.service.CartItemService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bob.cart.service.CartService;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
+import com.bob.core.aop.StudentHolder;
 import com.google.common.base.Preconditions;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,7 @@ public class CartItemServiceImp extends ServiceImpl<CartItemMapper, CartItem> im
     @Override
     public boolean addItemToCart(List<StudyPlanCourseCartItemBO> itemBOList) {
         Preconditions.checkNotNull(itemBOList, "不能为空");
-        Long studentId = itemBOList.get(0).getStudentId();
+        Long studentId = StudentHolder.getId();
         // 购物车
         Cart cart = cartService.findCartOrCreateByStudentId(studentId);
         Long cartId = cart.getCartId();

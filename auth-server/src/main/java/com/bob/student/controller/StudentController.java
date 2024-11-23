@@ -1,8 +1,7 @@
 package com.bob.student.controller;
 
-import cn.dev33.satoken.stp.SaLoginModel;
+
 import cn.dev33.satoken.stp.StpUtil;
-import cn.dev33.satoken.util.SaResult;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -13,8 +12,8 @@ import com.bob.commontools.utils.GsonHelper;
 import com.bob.commontools.utils.RedisOperator;
 import com.bob.core.aop.NeedStudentInHeader;
 import com.bob.core.aop.StudentHolder;
+import com.bob.role.service.RolePermissionService;
 import com.bob.student.domain.Student;
-import com.bob.student.mapper.StudentMapper;
 import com.bob.student.service.StudentRoleService;
 import com.bob.student.service.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * <p>
@@ -41,6 +39,7 @@ public class StudentController {
 
     private final StudentService studentService;
     private final StudentRoleService studentRoleService;
+    private final RolePermissionService rolePermissionService;
     private final RedisOperator redisOperator;
 
     /**
@@ -58,7 +57,8 @@ public class StudentController {
             // 加盐验证密码
             String hashPwd = BCrypt.hashpw(password, salt);
             if (hashPwd.equals(pwd)) {
-                List<Long> roleIds = studentRoleService.getRoleIdsByStudentId(one.getId());
+                List<String> roleIds = studentRoleService.getRoleIdsByStudentId(one.getId())
+                        .stream().map(String::valueOf).toList();
                 // 向Redis缓存用户权限
                 redisOperator.set(
                         BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + String.valueOf(one.getId()),

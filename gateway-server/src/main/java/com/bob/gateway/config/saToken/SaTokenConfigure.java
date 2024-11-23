@@ -37,7 +37,7 @@ public class SaTokenConfigure {
     // 注册 Sa-Token全局过滤器
     @Bean
     public SaReactorFilter getSaReactorFilter() {
-        log.info("---------- SaToken 全局Filter start ----------");
+        // log.info("---------- SaToken 全局Filter start ----------");
 
         SaReactorFilter saReactorFilter = new SaReactorFilter()
                 // 拦截地址
@@ -51,15 +51,14 @@ public class SaTokenConfigure {
                     // 如果请求资源后面Permission校验中匹配，依旧会被拦截请求，因为没有登录就没有办法验证资源Permission
                     // 所以，Permission校验中，需要没有这里排除的所有路径对饮关系（比如：auth-server的校验，因为如果后面包括了auth的Permission，auth-server的登录接口就会被拦截）
                     if (CollUtil.isNotEmpty(saTokenUrlRule.getWithOutLoginUri())) {
-                        log.info("----------当前WithOutLoginUri:{}", GsonHelper.object2Json(saTokenUrlRule.getWithOutLoginUri()));
+                        // log.info("----------当前WithOutLoginUri:{}", GsonHelper.object2Json(saTokenUrlRule.getWithOutLoginUri()));
                         SaRouter.match("/**")
-                                .notMatch(saTokenUrlRule.getWithOutLoginUri())
-                                .check(r -> StpUtil.checkLogin());
+                                .notMatch(saTokenUrlRule.getWithOutLoginUri());
                     }
 
                     // 权限认证 -- 不同模块, 校验不同权限
                     if (CollUtil.isNotEmpty(saTokenUrlRule.getPermissions())) {
-                        log.info("----------当前Permissions:{}", GsonHelper.object2Json(saTokenUrlRule.getPermissions()));
+                        // log.info("----------当前Permissions:{}", GsonHelper.object2Json(saTokenUrlRule.getPermissions()));
                         saTokenUrlRule.getPermissions().forEach(p -> {
                             // SaRouter.match("/user/**", r -> StpUtil.checkPermission("user"));
                             log.info("----------Permissions判断:{}", GsonHelper.object2Json(p));
@@ -93,7 +92,7 @@ public class SaTokenConfigure {
                             .free(r -> log.info("--------OPTIONS预检请求，不做处理"))
                             .back();
                 });
-        log.info("---------- SaToken 全局Filter end ----------");
+        // log.info("---------- SaToken 全局Filter end ----------");
         return saReactorFilter;
     }
 }

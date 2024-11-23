@@ -2,6 +2,8 @@ package com.bob.gateway.config.saToken;
 
 
 import cn.dev33.satoken.stp.StpInterface;
+
+import cn.hutool.json.JSONUtil;
 import com.bob.commontools.pojo.BusinessConstants;
 import com.bob.commontools.utils.GsonHelper;
 import com.bob.commontools.utils.RedisOperator;
@@ -36,7 +38,7 @@ public class StpInterFaceImp implements StpInterface {
 
         // 获取Sa-Token Session中用户登录时候的RoleIds
         List<String> userRoleIds = this.getRoleList(loginId, loginType);
-        log.info("----------当前用户RoleIds为：{}", GsonHelper.object2Json(userRoleIds));
+        // log.info("----------当前用户RoleIds为：{}", GsonHelper.object2Json(userRoleIds));
 
         // 获取缓存在Redis中的所有Permission
         Map<Object, Object> allPermissions = redisOperator.hgetall("permissions");
@@ -48,7 +50,7 @@ public class StpInterFaceImp implements StpInterface {
                 }.getType()));
             }
         });
-        log.info("----------当前用户权限为：{}", GsonHelper.object2Json(res));
+        // log.info("----------当前用户权限为：{}", GsonHelper.object2Json(res));
         return res;
     }
 

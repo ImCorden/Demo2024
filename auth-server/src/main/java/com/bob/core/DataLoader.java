@@ -1,9 +1,11 @@
 package com.bob.core;
 
 
+ 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bob.commontools.utils.GsonHelper;
 import com.bob.commontools.utils.RedisOperator;
+import com.bob.commontools.utils.RedisUtil;
 import com.bob.role.domain.RolePermission;
 import com.bob.role.service.RolePermissionService;
 import lombok.RequiredArgsConstructor;
@@ -29,14 +31,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DataLoader implements ApplicationRunner {
 
-    private final RedisOperator redisOperator;
+    private final RedisUtil redisUtil;
 
     private final RolePermissionService rolePermissionService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // 删除之前缓存
-        redisOperator.del("permissions");
+        redisUtil.delete("permissions");
         // 获取所有Role 对应的Permission
         Map<Long, List<String>> roleIds = rolePermissionService.list(
                         new LambdaQueryWrapper<RolePermission>()
@@ -49,7 +51,7 @@ public class DataLoader implements ApplicationRunner {
         // 加载到Redis中
         roleIds.forEach((roleId, permissionIdList) -> {
             String list = GsonHelper.object2Json(permissionIdList);
-            redisOperator.hset("permissions", roleId.toString(), list);
+            redisUtil.hPut("permissions", roleId.toString(), list);
             log.info("---加载Role到Redis---->  {}:{}", roleId.toString(), list);
         });
 

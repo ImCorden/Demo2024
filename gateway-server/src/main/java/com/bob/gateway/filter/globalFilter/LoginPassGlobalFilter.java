@@ -49,15 +49,15 @@ public class LoginPassGlobalFilter implements GlobalFilter, Ordered {
         if (StpUtil.isLogin()) {
             // 解析学生Id放入Headers
             String studentId = String.valueOf(StpUtil.getLoginId());
-            ServerHttpRequest.Builder builder = request.mutate();
+            ServerHttpRequest.Builder builder = exchange.getRequest().mutate();
             builder.header(BusinessConstants.HEADER_STUDENT_ID_KEY, studentId);
             exchange.mutate().request(builder.build()).build();
             log.info("######## header putted {} : {}   ########", BusinessConstants.HEADER_STUDENT_ID_KEY, studentId);
             // 续签token时间
-            StpUtil.renewTimeout(BusinessConstants.REDIS_SA_TOKEN_LOGIN_RENEW_TIME);
+            // StpUtil.renewTimeout(BusinessConstants.REDIS_SA_TOKEN_LOGIN_RENEW_TIME);
             // 续签Redis 中 Role信息
-            redisOperator.expire(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + studentId,
-                    BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_RENEW_TIME);
+            // redisOperator.expire(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + studentId,
+            //         BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_RENEW_TIME);
 
         }
         log.info("######## 通过请求 end   ########");
