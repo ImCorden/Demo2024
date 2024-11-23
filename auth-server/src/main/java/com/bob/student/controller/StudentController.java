@@ -9,7 +9,7 @@ import com.bob.commontools.exception.BusinessException;
 import com.bob.commontools.pojo.BusinessConstants;
 import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.utils.GsonHelper;
-import com.bob.commontools.utils.RedisOperator;
+import com.bob.commontools.utils.RedisUtil;
 import com.bob.core.aop.NeedStudentInHeader;
 import com.bob.core.aop.StudentHolder;
 import com.bob.role.service.RolePermissionService;
@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -40,7 +41,7 @@ public class StudentController {
     private final StudentService studentService;
     private final StudentRoleService studentRoleService;
     private final RolePermissionService rolePermissionService;
-    private final RedisOperator redisOperator;
+    private final RedisUtil redisUtil;
 
     /**
      * 登录接口
@@ -60,10 +61,11 @@ public class StudentController {
                 List<String> roleIds = studentRoleService.getRoleIdsByStudentId(one.getId())
                         .stream().map(String::valueOf).toList();
                 // 向Redis缓存用户权限
-                redisOperator.set(
+                redisUtil.setEx(
                         BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + String.valueOf(one.getId()),
                         GsonHelper.object2Json(roleIds),
-                        BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_RENEW_TIME);
+                        BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_RENEW_TIME,
+                        TimeUnit.MILLISECONDS);
                 StpUtil.login(one.getId());
                 // 放入信息在Session中
                 StpUtil.getSession()
@@ -92,7 +94,7 @@ public class StudentController {
         if (StpUtil.isLogin(studentId)){
             StpUtil.logout(studentId);
         }
-        redisOperator.del(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + studentId );
+        redisUtil.delete(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + studentId );
         return JsonResult.ok();
     }
 

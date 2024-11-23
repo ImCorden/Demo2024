@@ -3,10 +3,9 @@ package com.bob.gateway.config.saToken;
 
 import cn.dev33.satoken.stp.StpInterface;
 
-import cn.hutool.json.JSONUtil;
 import com.bob.commontools.pojo.BusinessConstants;
 import com.bob.commontools.utils.GsonHelper;
-import com.bob.commontools.utils.RedisOperator;
+import com.bob.commontools.utils.RedisUtil;
 import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,7 @@ import java.util.Map;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class StpInterFaceImp implements StpInterface {
 
-    private final RedisOperator redisOperator;
+    private final RedisUtil redisUtil;
 
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
@@ -41,7 +40,7 @@ public class StpInterFaceImp implements StpInterface {
         // log.info("----------当前用户RoleIds为：{}", GsonHelper.object2Json(userRoleIds));
 
         // 获取缓存在Redis中的所有Permission
-        Map<Object, Object> allPermissions = redisOperator.hgetall("permissions");
+        Map<Object, Object> allPermissions = redisUtil.hGetAll("permissions");
 
         // 取出用户Permission
         allPermissions.forEach((k, v) -> {
@@ -64,7 +63,7 @@ public class StpInterFaceImp implements StpInterface {
         //         .toList();
 
         // 改为从Redis中取权限，防止不重新登录无法刷新用户权限变更
-        String userRoles = redisOperator.get(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + loginId);
+        String userRoles = redisUtil.get(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + loginId);
         List<Long> roles = GsonHelper.json2Object(userRoles, new TypeToken<List<Long>>() {
         }.getType());
         return roles.stream().map(String::valueOf).toList();

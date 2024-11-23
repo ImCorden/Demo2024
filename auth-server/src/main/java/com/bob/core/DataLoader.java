@@ -4,7 +4,6 @@ package com.bob.core;
  
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bob.commontools.utils.GsonHelper;
-import com.bob.commontools.utils.RedisOperator;
 import com.bob.commontools.utils.RedisUtil;
 import com.bob.role.domain.RolePermission;
 import com.bob.role.service.RolePermissionService;

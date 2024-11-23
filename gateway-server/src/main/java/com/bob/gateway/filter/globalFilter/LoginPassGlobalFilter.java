@@ -3,7 +3,7 @@ package com.bob.gateway.filter.globalFilter;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.bob.commontools.pojo.BusinessConstants;
-import com.bob.commontools.utils.RedisOperator;
+import com.bob.commontools.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName : LoginFilter
@@ -33,7 +34,7 @@ import java.net.InetSocketAddress;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LoginPassGlobalFilter implements GlobalFilter, Ordered {
 
-    private final RedisOperator redisOperator;
+    private final RedisUtil redisUtil;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -54,10 +55,10 @@ public class LoginPassGlobalFilter implements GlobalFilter, Ordered {
             exchange.mutate().request(builder.build()).build();
             log.info("######## header putted {} : {}   ########", BusinessConstants.HEADER_STUDENT_ID_KEY, studentId);
             // 续签token时间
-            // StpUtil.renewTimeout(BusinessConstants.REDIS_SA_TOKEN_LOGIN_RENEW_TIME);
+            StpUtil.renewTimeout(BusinessConstants.REDIS_SA_TOKEN_LOGIN_RENEW_TIME);
             // 续签Redis 中 Role信息
-            // redisOperator.expire(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + studentId,
-            //         BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_RENEW_TIME);
+            redisUtil.expire(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + studentId,
+                    BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_RENEW_TIME, TimeUnit.MILLISECONDS);
 
         }
         log.info("######## 通过请求 end   ########");

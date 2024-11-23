@@ -6,7 +6,6 @@ import com.bob.cart.domain.CartItem;
 import com.bob.cart.service.CartItemService;
 import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
-import com.bob.core.aop.StudentHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +41,6 @@ public class CartItemController {
      **/
     @PostMapping("addItemToCart")
     public JsonResult addCartItem(@RequestBody List<StudyPlanCourseCartItemBO> itemBOList) {
-        Long studentId = StudentHolder.getId();
         // int i = 1/0;
         boolean res = cartItemService.addItemToCart(itemBOList);
         if (res) {
@@ -60,7 +58,7 @@ public class CartItemController {
      **/
     @Operation(summary = "按学生ID查购物车")
     @GetMapping("findByStudentId/{studentId}")
-    public JsonResult findByStudentId(@PathVariable Long studentId) {
+    public JsonResult findByStudentId(@PathVariable Long studentId){
         return JsonResult.ok(
                 cartItemService.list(new LambdaQueryWrapper<CartItem>().eq(CartItem::getStudentId, studentId))
         );
