@@ -1,4 +1,4 @@
-package com.bob.gateway.config.saToken;
+package com.bob.gateway.config;
 
 
 import lombok.AllArgsConstructor;

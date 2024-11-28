@@ -1,4 +1,4 @@
-package com.bob.core.aop;
+package com.bob.aspect;
 
 /**
  * @Description : TODO

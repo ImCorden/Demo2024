@@ -1,14 +1,15 @@
-package com.bob.gateway.filter.globalFilter;
+package com.bob.gateway.globalFilter;
 
 
 import cn.dev33.satoken.reactor.context.SaReactorSyncHolder;
 import cn.dev33.satoken.stp.StpUtil;
 
 
+import cn.hutool.core.util.ObjUtil;
 import com.bob.commontools.pojo.BusinessConstants;
 import com.bob.commontools.utils.GsonHelper;
 import com.bob.commontools.utils.RedisUtil;
-import com.bob.gateway.config.saToken.SaTokenUrlRule;
+import com.bob.gateway.config.SaTokenUrlRule;
 import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ import java.util.*;
  * @Date : 2024/11/13 13:57
  * @Version : 1.0
  **/
-// @Component
+@Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LoginCheckGlobalFilter implements GlobalFilter, Ordered {
@@ -54,16 +55,17 @@ public class LoginCheckGlobalFilter implements GlobalFilter, Ordered {
         }
         // 需要权限验证，进行Sa-Token验证
         SaReactorSyncHolder.setContext(exchange);
-        if (StpUtil.isLogin()) {
-            String studentId = String.valueOf(StpUtil.getLoginId());
+        Object loginId = StpUtil.getLoginIdDefaultNull();
+        if (ObjUtil.isNotEmpty(loginId)) {
+            String studentId = loginId.toString();
 
             List<String> userPer = this.getPermission(studentId);
 
-            long count = saTokenUrlRule.getPermissions().stream()
+            boolean present = saTokenUrlRule.getPermissions()
+                    .stream()
                     .filter(permission -> path.startsWith(permission.getUri()))
-                    .filter(permission -> userPer.contains(permission.getPermission()))
-                    .count();
-            if (count > 0) {
+                    .anyMatch(permission -> userPer.contains(permission.getPermission()));
+            if (present) {
                 ServerHttpRequest res = exchange.getRequest()
                         .mutate()
                         .header(BusinessConstants.HEADER_STUDENT_ID_KEY, studentId)
@@ -85,14 +87,16 @@ public class LoginCheckGlobalFilter implements GlobalFilter, Ordered {
 
     private List<String> getPermission(String loginId) {
         List<String> res = new ArrayList<>();
-        //取出学生角色
+        // 取出学生角色
         String jsonRole = redisUtil.get(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + loginId);
-        ArrayList<String> roles = GsonHelper.json2Object(jsonRole, new TypeToken<ArrayList<String>>() {}.getType());
+        ArrayList<String> roles = GsonHelper.json2Object(jsonRole, new TypeToken<ArrayList<String>>() {
+        }.getType());
         // 取出所有系统角色的权限
         Map<Object, Object> pers = redisUtil.hGetAll("permissions");
         pers.forEach((k, v) -> {
             if (roles.contains(k.toString())) {
-                res.addAll(GsonHelper.json2Object(v.toString(), new TypeToken<List<String>>() {}.getType()));
+                res.addAll(GsonHelper.json2Object(v.toString(), new TypeToken<List<String>>() {
+                }.getType()));
             }
         });
         return res;

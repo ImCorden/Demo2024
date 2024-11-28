@@ -1,4 +1,4 @@
-package com.bob.gateway.config.saToken;
+package com.bob.gateway.saToken;
 
 
 import cn.dev33.satoken.stp.StpInterface;
@@ -23,7 +23,7 @@ import java.util.Map;
  * @Date : 2024/11/17 22:42
  * @Version : 1.0
  **/
-@Component
+// @Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class StpInterFaceImp implements StpInterface {

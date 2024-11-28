@@ -8,6 +8,7 @@ spring:
       - optional:nacos:gateway-server.yml
       - optional:nacos:redis-config.yml?group=common&refreshEnable=true
       - optional:nacos:permission-config.yml?group=common&refreshEnable=true
+      - optional:nacos:satoken-config.yml?group=common&refreshEnable=true
   cloud:
     nacos:
       server-addr: 192.168.50.240:8848
@@ -35,6 +36,9 @@ spring:
           - data-id: permission-config.yml
             group: common
             refresh: true
+          - data-id: satoken-config.yml
+            group: common
+            refresh: true
     gateway:
       enabled: true
       discovery:
@@ -59,7 +63,13 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=1
-
+      httpclient:
+        pool:
+          type: ELASTIC
+          max-idle-time: 30S
+          max-connections: 2000
+        websocket:
+          max-frame-payload-length: 10485760
     loadbalancer:
       enabled: true
       cache:
@@ -68,19 +78,6 @@ spring:
       nacos:
         enabled: true # 使用nacos权重需要开启
 #      configurations: com.alibaba.cloud.nacos.loadbalancer.NacosLoadBalancerClientConfiguration
-
-sa-token:
-  token-name: BobToken # token 名称（同时也是 cookie 名称）
-  timeout: 2592000 # token 有效期（单位：秒） 默认30天，-1 代表永久有效
-  active-timeout: -1 # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
-  is-concurrent: true # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
-  is-share: true # 在多人登录同一账号时，是否共用一个 token （为 true 时所有登录共用一个 token, 为 false 时每次登录新建一个 token）
-  token-style: random-64 # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
-  is-log: true # 是否输出操作日志
-  is-read-header: true
-  is-read-body: false
-  is-write-header: true
-
 management:
   endpoints:
     web:
@@ -101,7 +98,5 @@ logging:
 #    org.springframework.HTTP.server.reactive: debug
 #    org.springframework.web.reactive: debug
 #    reactor.ipc.netty: debug
-    com.bob.*: debug
+    com.bob.*: info
   config: classpath:logback.xml
-rule:
-  with-out-login-uri:

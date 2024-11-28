@@ -1,4 +1,4 @@
-package com.bob.core;
+package com.bob.config;
 
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;

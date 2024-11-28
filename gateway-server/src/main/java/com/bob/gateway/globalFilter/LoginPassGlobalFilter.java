@@ -1,4 +1,4 @@
-package com.bob.gateway.filter.globalFilter;
+package com.bob.gateway.globalFilter;
 
 
 import cn.dev33.satoken.stp.StpUtil;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @Date : 2024/11/13 13:57
  * @Version : 1.0
  **/
-@Component
+// @Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LoginPassGlobalFilter implements GlobalFilter, Ordered {

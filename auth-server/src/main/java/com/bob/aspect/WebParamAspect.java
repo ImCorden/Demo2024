@@ -1,4 +1,4 @@
-package com.bob.core.aop;
+package com.bob.aspect;
 
 
 import com.bob.commontools.pojo.BusinessConstants;
@@ -27,7 +27,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class WebParamAspect {
 
 
-    @Pointcut("@annotation(NeedStudentInHeader)")
+    @Pointcut("@annotation(com.bob.aspect.NeedStudentInHeader)")
     private void pointcut() {
     }
 

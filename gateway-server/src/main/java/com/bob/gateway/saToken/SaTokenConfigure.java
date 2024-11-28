@@ -1,4 +1,4 @@
-package com.bob.gateway.config.saToken;
+package com.bob.gateway.saToken;
 
 
 /**
@@ -17,10 +17,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.utils.GsonHelper;
+import com.bob.gateway.config.SaTokenUrlRule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * [Sa-Token 权限认证] 配置类
@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Configuration;
  * @author click33
  */
 @Slf4j
-@Configuration
+// @Configuration
 public class SaTokenConfigure {
 
     @Autowired
