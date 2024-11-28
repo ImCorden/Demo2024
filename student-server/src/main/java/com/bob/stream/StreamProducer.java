@@ -1,4 +1,4 @@
-package com.bob.student.stream;
+package com.bob.stream;
 
 
 import com.bob.core.pojo.Constant;

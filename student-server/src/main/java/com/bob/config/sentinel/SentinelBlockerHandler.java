@@ -1,4 +1,4 @@
-package com.bob.core.sentinel;
+package com.bob.config.sentinel;
 
 
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;

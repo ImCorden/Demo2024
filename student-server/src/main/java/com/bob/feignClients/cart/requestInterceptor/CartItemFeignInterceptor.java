@@ -3,7 +3,7 @@ package com.bob.feignClients.cart.requestInterceptor;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.bob.commontools.pojo.BusinessConstants;
-import com.bob.core.aop.StudentHolder;
+import com.bob.aspect.StudentHolder;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;

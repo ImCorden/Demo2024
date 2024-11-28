@@ -1,4 +1,4 @@
-package com.bob.core.aop;
+package com.bob.aspect;
 
 
 import com.bob.commontools.pojo.BusinessConstants;

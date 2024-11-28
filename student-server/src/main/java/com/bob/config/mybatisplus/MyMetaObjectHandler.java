@@ -1,4 +1,4 @@
-package com.bob.core.config.mybatisplus;
+package com.bob.config.mybatisplus;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.bob.commontools.pojo.enums.YesOrNo;

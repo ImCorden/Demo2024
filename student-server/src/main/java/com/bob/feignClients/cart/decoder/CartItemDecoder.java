@@ -6,7 +6,6 @@ import com.bob.commontools.utils.GsonHelper;
 import feign.FeignException;
 import feign.Response;
 import feign.Util;
-import feign.codec.DecodeException;
 import feign.codec.Decoder;
 import lombok.extern.slf4j.Slf4j;
 

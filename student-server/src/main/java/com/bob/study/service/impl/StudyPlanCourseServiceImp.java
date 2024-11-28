@@ -1,7 +1,7 @@
 package com.bob.study.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.bob.core.aop.StudentHolder;
+import com.bob.aspect.StudentHolder;
 import com.bob.course.domain.Course;
 import com.bob.course.service.CourseService;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;

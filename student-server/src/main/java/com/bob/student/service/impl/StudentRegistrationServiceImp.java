@@ -14,7 +14,7 @@ import com.bob.student.bo.StudentRegistrationProvinceBO;
 import com.bob.student.domain.StudentRegistration;
 import com.bob.student.mapper.StudentRegistrationMapper;
 import com.bob.student.service.StudentRegistrationService;
-import com.bob.student.stream.StreamProducer;
+import com.bob.stream.StreamProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
