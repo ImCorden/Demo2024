@@ -1,8 +1,8 @@
 package com.bob.stream;
 
-import com.bob.commontools.utils.GsonHelper;
+import com.bob.commontools.utils.GsonUtils;
 import com.bob.core.pojo.Constant;
-import com.bob.student.bo.StudentRegistrationProvinceBO;
+import com.bob.commontools.pojo.bo.StudentRegistrationProvinceBO;
 import com.bob.student.service.StudentRegistrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class RegistrationStudentConsumer {
      * 消费者
      * <p>
      *
-     * @return : java.util.function.Consumer<com.bob.student.bo.StudentRegistrationProvinceBO>
+     * @return : java.util.function.Consumer<com.bob.commontools.pojo.bo.StudentRegistrationProvinceBO>
      * @params : []
      **/
     @Bean
@@ -57,7 +57,7 @@ public class RegistrationStudentConsumer {
         return v -> {
             String msg = new String((byte[]) v.getOriginalMessage().getPayload());
             String localizedMessage = v.getPayload().getCause().getLocalizedMessage();
-            String HeadersJson = GsonHelper.object2Json(v.getOriginalMessage().getHeaders());
+            String HeadersJson = GsonUtils.object2Json(v.getOriginalMessage().getHeaders());
 
             log.error(Constant.LOG_STYLE,"Registration Student Consumer 消费异常");
             log.error("原始消息：{}", msg);

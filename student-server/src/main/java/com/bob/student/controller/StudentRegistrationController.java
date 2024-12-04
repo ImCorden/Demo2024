@@ -1,7 +1,7 @@
 package com.bob.student.controller;
 
 import com.bob.commontools.pojo.JsonResult;
-import com.bob.student.bo.StudentRegistrationProvinceBO;
+import com.bob.commontools.pojo.bo.StudentRegistrationProvinceBO;
 import com.bob.student.service.StudentRegistrationService;
 import com.bob.student.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;

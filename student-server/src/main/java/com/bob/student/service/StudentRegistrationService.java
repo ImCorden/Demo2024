@@ -1,6 +1,6 @@
 package com.bob.student.service;
 
-import com.bob.student.bo.StudentRegistrationProvinceBO;
+import com.bob.commontools.pojo.bo.StudentRegistrationProvinceBO;
 import com.bob.student.domain.StudentRegistration;
 import com.baomidou.mybatisplus.extension.service.IService;
 

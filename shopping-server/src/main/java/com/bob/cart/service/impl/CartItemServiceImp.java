@@ -7,9 +7,8 @@ import com.bob.cart.service.CartItemService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bob.cart.service.CartService;
 import com.bob.commontools.pojo.bo.StudyPlanCourseCartItemBO;
-import com.bob.core.aop.StudentHolder;
+import com.bob.aspect.StudentHolder;
 import com.google.common.base.Preconditions;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * <p>

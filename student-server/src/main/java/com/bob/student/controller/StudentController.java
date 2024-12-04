@@ -42,5 +42,11 @@ public class StudentController {
     }
 
 
+    @GetMapping("testJmx")
+    public JsonResult testJmx(){
+        return JsonResult.ok();
+    }
+
+
 
 }

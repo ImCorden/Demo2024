@@ -16,11 +16,12 @@ import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.bob.commontools.pojo.JsonResult;
-import com.bob.commontools.utils.GsonHelper;
+import com.bob.commontools.utils.GsonUtils;
 import com.bob.gateway.config.SaTokenUrlRule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * [Sa-Token 权限认证] 配置类
@@ -28,7 +29,7 @@ import org.springframework.context.annotation.Bean;
  * @author click33
  */
 @Slf4j
-// @Configuration
+@Configuration
 public class SaTokenConfigure {
 
     @Autowired
@@ -51,17 +52,18 @@ public class SaTokenConfigure {
                     // 如果请求资源后面Permission校验中匹配，依旧会被拦截请求，因为没有登录就没有办法验证资源Permission
                     // 所以，Permission校验中，需要没有这里排除的所有路径对饮关系（比如：auth-server的校验，因为如果后面包括了auth的Permission，auth-server的登录接口就会被拦截）
                     if (CollUtil.isNotEmpty(saTokenUrlRule.getWithOutLoginUri())) {
-                        // log.info("----------当前WithOutLoginUri:{}", GsonHelper.object2Json(saTokenUrlRule.getWithOutLoginUri()));
+                        // log.info("----------当前WithOutLoginUri:{}", GsonUtils.object2Json(saTokenUrlRule.getWithOutLoginUri()));
                         SaRouter.match("/**")
-                                .notMatch(saTokenUrlRule.getWithOutLoginUri());
+                                .notMatch(saTokenUrlRule.getWithOutLoginUri())
+                                .check(r -> StpUtil.checkLogin());
                     }
 
                     // 权限认证 -- 不同模块, 校验不同权限
                     if (CollUtil.isNotEmpty(saTokenUrlRule.getPermissions())) {
-                        // log.info("----------当前Permissions:{}", GsonHelper.object2Json(saTokenUrlRule.getPermissions()));
+                        // log.info("----------当前Permissions:{}", GsonUtils.object2Json(saTokenUrlRule.getPermissions()));
                         saTokenUrlRule.getPermissions().forEach(p -> {
                             // SaRouter.match("/user/**", r -> StpUtil.checkPermission("user"));
-                            log.info("----------Permissions判断:{}", GsonHelper.object2Json(p));
+                            // log.info("----------Permissions判断:{}", GsonUtils.object2Json(p));
                             SaRouter.match(p.getUri(), r -> StpUtil.checkPermission(p.getPermission()))
                                     .stop();// 最后的匹配过程，一旦匹配跳出后续匹配
 
@@ -73,7 +75,7 @@ public class SaTokenConfigure {
                 .setError(e -> {
                     log.error("----------鉴权抛出问题:{}", e.getMessage());
                     // return SaResult.error(e.getMessage());
-                    return GsonHelper.object2Json(JsonResult.errorMsg(e.getMessage()));
+                    return GsonUtils.object2Json(JsonResult.errorMsg(e.getMessage()));
                 })
                 .setBeforeAuth(obj -> {
                     // ---------- 设置跨域响应头 ----------

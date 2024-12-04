@@ -35,7 +35,6 @@ spring:
           - dataId: satoken-config.yaml
             group: common
             refresh: true
-
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

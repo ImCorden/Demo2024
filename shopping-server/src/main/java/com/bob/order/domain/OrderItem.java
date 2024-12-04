@@ -8,10 +8,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * <p>
@@ -23,6 +20,8 @@ import lombok.Setter;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("order_item")
 @Schema(name = "OrderItem", description = "订单内商品")
 public class OrderItem implements Serializable {

@@ -30,7 +30,7 @@
         <!-- 仓储 -->
         <mybatis.plus.version>3.5.8</mybatis.plus.version>
         <knife4j.version>4.4.0</knife4j.version>
-
+        <redisson.version>3.19.3</redisson.version>
 
         <!-- 工具版本  -->
         <lombok.version>1.18.20</lombok.version>

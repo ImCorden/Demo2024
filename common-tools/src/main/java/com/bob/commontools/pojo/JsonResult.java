@@ -28,12 +28,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class JsonResult {
-
-    /**
-     * 定义jackson对象
-     */
-    // private static final ObjectMapper MAPPER = new ObjectMapper();
+public class JsonResult<T> {
 
     /**
      * 响应业务状态
@@ -46,59 +41,80 @@ public class JsonResult {
     private String msg;
 
     /**
-     * 响应中的数据
+     * 响应中的数据，使用泛型类型
      */
-    private Object data;
+    private T data;
 
-    public static JsonResult build(Integer status, String msg, Object data) {
-        return new JsonResult(status, msg, data);
+    /**
+     * 静态方法：成功时返回
+     */
+    public static <T> JsonResult<T> ok(T data) {
+        return new JsonResult<>(200, "OK", data);
     }
 
-
-    public static JsonResult ok(Object data) {
-        return new JsonResult(data);
+    /**
+     * 静态方法：成功时不返回数据
+     */
+    public static <T> JsonResult<T> ok() {
+        return new JsonResult<>(200, "OK", null);
     }
 
-    public static JsonResult ok() {
-        return new JsonResult(null);
+    /**
+     * 静态方法：返回错误信息
+     */
+    public static <T> JsonResult<T> errorMsg(String msg) {
+        return new JsonResult<>(500, msg, null);
     }
 
-    public static JsonResult errorMsg(String msg) {
-        return new JsonResult(500, msg, null);
+    /**
+     * 静态方法：返回错误码和信息
+     */
+    public static <T> JsonResult<T> errorCodeAndMsg(Integer status, String msg) {
+        return new JsonResult<>(status, msg, null);
     }
 
-    public static JsonResult errorCodeAndMsg(Integer status, String msg) {
-        return new JsonResult(status, msg, null);
+    /**
+     * 静态方法：返回错误数据
+     */
+    public static <T> JsonResult<T> errorMap(T data) {
+        return new JsonResult<>(501, "error", data);
     }
 
-    public static JsonResult errorMap(Object data) {
-        return new JsonResult(501, "error", data);
+    /**
+     * 静态方法：token错误
+     */
+    public static <T> JsonResult<T> errorTokenMsg(String msg) {
+        return new JsonResult<>(502, msg, null);
     }
 
-    public static JsonResult errorTokenMsg(String msg) {
-        return new JsonResult(502, msg, null);
+    /**
+     * 静态方法：异常错误
+     */
+    public static <T> JsonResult<T> errorException(String msg) {
+        return new JsonResult<>(555, msg, null);
     }
 
-    public static JsonResult errorException(String msg) {
-        return new JsonResult(555, msg, null);
-    }
-
-    public static JsonResult errorUserQQ(String msg) {
-        return new JsonResult(556, msg, null);
-    }
-
-    public JsonResult(Integer status, String msg, Object data) {
+    /**
+     * 构造函数：用于传入状态、消息、数据
+     */
+    public JsonResult(Integer status, String msg, T data) {
         this.status = status;
         this.msg = msg;
         this.data = data;
     }
 
-    public JsonResult(Object data) {
+    /**
+     * 构造函数：用于传入数据，默认状态为200
+     */
+    public JsonResult(T data) {
         this.status = 200;
         this.msg = "OK";
         this.data = data;
     }
 
+    /**
+     * 判断状态是否为OK
+     */
     public Boolean isOK() {
         return this.status == 200;
     }

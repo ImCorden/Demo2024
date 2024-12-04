@@ -1,6 +1,6 @@
 package com.bob.study.service;
 
-import com.bob.study.bo.StudyPlanCourseSelectBO;
+import com.bob.commontools.pojo.bo.StudyPlanCourseSelectBO;
 import com.bob.study.domain.StudyPlanCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 

@@ -5,12 +5,12 @@ import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bob.commontools.pojo.enums.YesOrNo;
-import com.bob.commontools.utils.GsonHelper;
+import com.bob.commontools.utils.GsonUtils;
 import com.bob.core.pojo.Constant;
 import com.bob.student.domain.Student;
 import com.bob.student.service.StudentRoleService;
 import com.bob.student.service.StudentService;
-import com.bob.student.bo.StudentRegistrationProvinceBO;
+import com.bob.commontools.pojo.bo.StudentRegistrationProvinceBO;
 import com.bob.student.domain.StudentRegistration;
 import com.bob.student.mapper.StudentRegistrationMapper;
 import com.bob.student.service.StudentRegistrationService;
@@ -58,7 +58,7 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
         );
         // 不存在发送Msg
         if (res.isEmpty()) {
-            return streamProducer.sendSyncSingleMsg(GsonHelper.object2Json(studentRegistrationProvinceBO));
+            return streamProducer.sendSyncSingleMsg(GsonUtils.object2Json(studentRegistrationProvinceBO));
         }
         return false;
     }

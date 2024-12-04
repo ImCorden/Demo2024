@@ -2,17 +2,25 @@
 spring:
   data:
     redis:
-      host: 192.168.50.81
-      port: 6379
-      password: 123456
-      database: 0
-      timeout: 10000
-      ssl: false
-      client-type: jedis
-      jedis:
-        pool:
-          enabled: true
-          max-active: 10
-          max-wait: 10000
-          max-idle: 10
-          min-idle: 0
+      redisson:
+        config: |
+          singleServerConfig:
+            idleConnectionTimeout: 10000
+            connectTimeout: 10000
+            timeout: 3000
+            retryAttempts: 3
+            retryInterval: 1500
+            password: 123456
+            subscriptionsPerConnection: 5
+            clientName: null
+            address: "redis://192.168.50.81:6379"
+            subscriptionConnectionMinimumIdleSize: 1
+            subscriptionConnectionPoolSize: 50
+            connectionMinimumIdleSize: 24
+            connectionPoolSize: 64
+            database: 0
+            dnsMonitoringInterval: 5000
+          threads: 16
+          nettyThreads: 32
+          codec: !<org.redisson.codec.Kryo5Codec> {}
+          transportMode: "NIO"

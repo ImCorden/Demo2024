@@ -1,6 +1,6 @@
 package com.bob.student.service;
 
-import com.bob.commontools.exception.BusinessException;
+import com.bob.commontools.exception.BizException;
 import com.bob.student.domain.StudentRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -22,5 +22,5 @@ public interface StudentRoleService extends IService<StudentRole> {
      * @params : [id]
      * @return : java.util.List<java.lang.Integer>
      **/
-    List<Long> getRoleIdsByStudentId(Long id) throws BusinessException;
+    List<Long> getRoleIdsByStudentId(Long id) throws BizException;
 }

@@ -1,7 +1,8 @@
 package com.bob.aspect;
 
 
-import com.bob.commontools.pojo.BusinessConstants;
+import com.bob.commontools.pojo.constants.BizConstants;
+import com.bob.commontools.pojo.constants.RedisConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -35,7 +36,7 @@ public class WebParamAspect {
     public void doBefore(JoinPoint joinPoint) {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (servletRequestAttributes != null) {
-            String header = servletRequestAttributes.getRequest().getHeader(BusinessConstants.HEADER_STUDENT_ID_KEY);
+            String header = servletRequestAttributes.getRequest().getHeader(BizConstants.HEADER_STUDENT_ID_KEY);
             if (header != null) {
                 StudentHolder.add(Long.parseLong(header));
             }

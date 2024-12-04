@@ -3,7 +3,7 @@ package com.bob.core;
 
  
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.bob.commontools.utils.GsonHelper;
+import com.bob.commontools.utils.GsonUtils;
 import com.bob.commontools.utils.RedisUtil;
 import com.bob.role.domain.RolePermission;
 import com.bob.role.service.RolePermissionService;
@@ -49,7 +49,7 @@ public class DataLoader implements ApplicationRunner {
                         Collectors.mapping(RolePermission::getPermission, Collectors.toList())));
         // 加载到Redis中
         roleIds.forEach((roleId, permissionIdList) -> {
-            String list = GsonHelper.object2Json(permissionIdList);
+            String list = GsonUtils.object2Json(permissionIdList);
             redisUtil.hPut("permissions", roleId.toString(), list);
             log.info("---加载Role到Redis---->  {}:{}", roleId.toString(), list);
         });

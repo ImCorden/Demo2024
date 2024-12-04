@@ -1,16 +1,14 @@
 package com.bob.student.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.bob.commontools.exception.BusinessException;
+import com.bob.commontools.exception.BizException;
 import com.bob.student.domain.StudentRole;
 import com.bob.student.mapper.StudentRoleMapper;
 import com.bob.student.service.StudentRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,10 +30,10 @@ public class StudentRoleServiceImp extends ServiceImpl<StudentRoleMapper, Studen
      * @params : [id]
      **/
     @Override
-    public List<Long> getRoleIdsByStudentId(Long id) throws BusinessException {
+    public List<Long> getRoleIdsByStudentId(Long id) throws BizException {
 
         if (ObjectUtil.isNull(id)) {
-            throw new BusinessException("学生ID不能为空！");
+            throw new BizException("学生ID不能为空！");
         }
         return this.listObjs(
                 new LambdaQueryWrapper<StudentRole>()

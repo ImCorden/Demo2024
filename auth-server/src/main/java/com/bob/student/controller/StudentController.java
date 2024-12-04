@@ -6,10 +6,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.bob.commontools.exception.BusinessException;
-import com.bob.commontools.pojo.BusinessConstants;
+import com.bob.commontools.exception.BizException;
+import com.bob.commontools.pojo.constants.RedisConstants;
 import com.bob.commontools.pojo.JsonResult;
-import com.bob.commontools.utils.GsonHelper;
+import com.bob.commontools.utils.GsonUtils;
 import com.bob.commontools.utils.RedisUtil;
 import com.bob.role.service.RolePermissionService;
 import com.bob.student.bo.StudentLoginBo;
@@ -53,7 +53,7 @@ public class StudentController {
      * @params : [identityCode, password]
      **/
     @PostMapping("login")
-    public JsonResult Login(@RequestBody StudentLoginBo studentLoginBo) throws BusinessException {
+    public JsonResult Login(@RequestBody StudentLoginBo studentLoginBo) throws BizException {
         Student one = studentService.getOne(new LambdaQueryWrapper<Student>().eq(Student::getIdentityCode, studentLoginBo.getIdentityCode()));
         if (ObjectUtil.isNotNull(one)) {
             String pwd = one.getPassword();
@@ -63,12 +63,12 @@ public class StudentController {
             if (hashPwd.equals(pwd)) {
                 List<String> roleIds = studentRoleService.getRoleIdsByStudentId(one.getId())
                         .stream().map(String::valueOf).toList();
-                String roleJsonStr = GsonHelper.object2Json(roleIds);
+                String roleJsonStr = GsonUtils.object2Json(roleIds);
                 // 向Redis缓存用户权限
                 redisUtil.setEx(
-                        BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + String.valueOf(one.getId()),
+                        RedisConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + String.valueOf(one.getId()),
                         roleJsonStr,
-                        BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_RENEW_TIME,
+                        RedisConstants.REDIS_USER_ROLES_LOGIN_KEY_RENEW_TIME,
                         TimeUnit.SECONDS);
                 StpUtil.login(one.getId(),
                         new SaLoginModel()
@@ -102,7 +102,7 @@ public class StudentController {
         if (ObjectUtil.isNotNull(token)) {
             Object loginIdByToken = StpUtil.getLoginIdByToken(token);
             StpUtil.logout(loginIdByToken);
-            redisUtil.delete(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + loginIdByToken.toString());
+            redisUtil.delete(RedisConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + loginIdByToken.toString());
             return JsonResult.ok();
         }
         return JsonResult.errorMsg("注销失败！");

@@ -3,49 +3,117 @@ server:
 spring:
   application:
     name: shopping-server
-  data:
-    redis:
-      host: 192.168.50.81
-      port: 6379
-      password: 123456
-      database: 0
-      timeout: 10000
-      ssl: false
-      client-type: jedis
-      jedis:
-        pool:
-          enabled: true
-          max-active: 10
-          max-wait: 10000
-          max-idle: 10
-          min-idle: 0
-  datasource:
-    type: com.mysql.cj.jdbc.MysqlDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.50.240:3306/demo2024_biz_shopping?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&
-    username: root
-    password: javaee12
-    hikari:
-      #连接超时时间：毫秒，小于250毫秒，否则被重置为默认值30秒
-      connection-timeout: 2000
-      #最小空闲连接，默认值10，小于0或大于maximum-pool-size，都会重置为maximum-pool-size
-      minimum-idle: 5
-      #最大连接数，小于等于0会被重置为默认值10；大于零小于1会被重置为minimum-idle的值
-      maximum-pool-size: 20
-      #空闲连接最大存活时间，默认值600000（10分钟），大于等于max-lifetime且max-lifetime>0，会被重置为0；不等于0且小于10秒，会被重置为10秒。
-      idle-timeout: 200000
-      #连接池返回的连接默认自动提交，默认只 true
-      auto-commit: true
-      # 连接最大存活时间，不等于0且小于30秒，会被重置为默认值30分钟.设置应该比mysql设置的超时时间短
-      max-lifetime: 1800000
-      #用于测试连接是否可用的查询语句
-      connection-test-query: select 1
+  # 2022.0.x nacos config不使用bootstrap.yml拉取配置，必须要这么写
+  config:
+    import:
+      - optional:nacos:shopping-server.yml
+      - optional:nacos:redis-config.yml?group=common&refreshEnable=true
   cloud:
     nacos:
       server-addr: 192.168.50.240:8848
       discovery:
         namespace: demo2024-ff70-43c5-89b6-06110ac8856a
         group: demo2024
+      # 2022.0新配置
+      config:
+        group: demo2024
+        namespace: demo2024-ff70-43c5-89b6-06110ac8856a # 如果没有指定命令空间，则默认命令空间为PUBLIC
+        file-extension: yaml
+        encode: UTF-8
+        timeout: 5000 # 从nacos读取配置项的超时时间
+        max-retry: 3 # 长轮训重试次数
+        config-long-poll-timeout: 1000 # 长轮训超时时间
+        config-retry-time: 100000 # 重试时间
+        enable-remote-sync-config: true # nacos的扩展配置项，数字越大优先级越高,# 监听器首次添加时拉取远端配置,false
+        refresh-enabled: true # 开启监听和自动刷新
+        # prefix: 文件名前缀，默认是spring.application.name
+        extension-configs:
+          # 可以添加其他节点
+          - dataId: redis-config.yaml
+            group: common
+            refresh: true
+    stream:
+      # 必须定义
+      function:
+        definition: toSecKill;myHandler; # 必须定义：不然会对不上Spring Function
+      # RocketMQ 个性化配置(https://sca.aliyun.com/docs/2023/user-guide/rocketmq/quick-start/?spm=5176.29160081.0.0.74805c72LbrCmb)
+      rocketmq:
+        binder:
+          name-server: 192.168.50.241:9876
+          enable-msg-trace: true
+        bindings:
+          toSecKill-out-0:
+            producer:
+              retryTimesWhenSendFailed: 1 # 失败重试次数
+              producerType: Normal # 普通消息，还是事务消息（Trans）
+          toSecKill-in-0:
+            consumer:
+              delayLevelWhenNextConsume: 0
+            # subscription: 'TagA || TagC || TagD'
+            # push:
+            #  orderly: true
+      # Stream binding 配置
+      bindings:
+        toSecKill-out-0: # 原来OutPut的新配置写法
+          destination: seckill-topic
+          group: seckill-p-group
+          content-type: application/json
+          binder: rocketmq
+        toSecKill-in-0: # 原来Input的新配置写法
+          destination: seckill-topic
+          group: seckill-c-group
+          content-type: application/json
+          binder: rocketmq
+          consumer:
+            max-attempts: 1 # 不允许Spring Cloud Stream的投递失败重试（设置为1为不重试）
+          error-handler-definition: myHandler # 错误失败的处理类com.bob.shopping.stream.RegistrationStudentConsumer.myHandler
+    openfeign:
+      compression:
+        request:
+          enabled: true
+          min-request-size: 2048 # 请求最小阈值
+          mime-types: text/xml,application/xml,application/json # 支持的媒体类型列表
+      httpclient:
+        enabled: true
+        max-connections: 200 # feign最大连接数
+        max-connections-per-route: 60 # feign单个路径最大连接数(每个Api地址)
+      client:
+        config:
+          default:
+            logger-level: FULL
+          studyPlanCourse:
+            decoder: com.bob.feignClients.studentServer.decoder.StudentServerDecoder # Http状态响应码<400处理响应Decoder
+            error-decoder: com.bob.feignClients.studentServer.decoder.StudentServerErrorDecoder # 400<Http状态响应<=500,处理响应ErrorDecoder
+          studyPlan:
+            decoder: com.bob.feignClients.studentServer.decoder.StudentServerDecoder
+            error-decoder: com.bob.feignClients.studentServer.decoder.StudentServerErrorDecoder
+          course:
+            decoder: com.bob.feignClients.studentServer.decoder.StudentServerDecoder
+            error-decoder: com.bob.feignClients.studentServer.decoder.StudentServerErrorDecoder
+    # 移除Ribbon后，使用Loadbalancer的配置
+    loadbalancer:
+      enabled: true
+      eager-load: # 饥饿加载的客户端
+        clients: shopping-server
+      cache:
+        enabled: true # 是否开启缓存
+        ttl: 2s # 缓存失效时间
+      nacos:
+        enabled: true # 使用nacos权重需要开启
+    # Sentinel配置
+    sentinel:
+      enabled: true
+      transport:
+        dashboard: 192.168.50.240:8858
+        port: 8719
+      filter:
+        enabled: true
+        url-patterns: /**
+      eager: true
+# OpenFeign 开启 Sentinel
+feign:
+  sentinel:
+    enabled: true
 
 
 

@@ -6,8 +6,9 @@ import cn.dev33.satoken.stp.StpUtil;
 
 
 import cn.hutool.core.util.ObjUtil;
-import com.bob.commontools.pojo.BusinessConstants;
-import com.bob.commontools.utils.GsonHelper;
+import com.bob.commontools.pojo.constants.BizConstants;
+import com.bob.commontools.pojo.constants.RedisConstants;
+import com.bob.commontools.utils.GsonUtils;
 import com.bob.commontools.utils.RedisUtil;
 import com.bob.gateway.config.SaTokenUrlRule;
 import com.google.gson.reflect.TypeToken;
@@ -22,7 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -37,7 +37,7 @@ import java.util.*;
  * @Date : 2024/11/13 13:57
  * @Version : 1.0
  **/
-@Component
+// @Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LoginCheckGlobalFilter implements GlobalFilter, Ordered {
@@ -68,7 +68,7 @@ public class LoginCheckGlobalFilter implements GlobalFilter, Ordered {
             if (present) {
                 ServerHttpRequest res = exchange.getRequest()
                         .mutate()
-                        .header(BusinessConstants.HEADER_STUDENT_ID_KEY, studentId)
+                        .header(BizConstants.HEADER_STUDENT_ID_KEY, studentId)
                         .build();
                 ServerWebExchange newServerWebExchange = exchange.mutate().request(res).build();
                 // long end = System.currentTimeMillis();
@@ -88,14 +88,14 @@ public class LoginCheckGlobalFilter implements GlobalFilter, Ordered {
     private List<String> getPermission(String loginId) {
         List<String> res = new ArrayList<>();
         // 取出学生角色
-        String jsonRole = redisUtil.get(BusinessConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + loginId);
-        ArrayList<String> roles = GsonHelper.json2Object(jsonRole, new TypeToken<ArrayList<String>>() {
+        String jsonRole = redisUtil.get(RedisConstants.REDIS_USER_ROLES_LOGIN_KEY_PREFIX + loginId);
+        ArrayList<String> roles = GsonUtils.json2Object(jsonRole, new TypeToken<ArrayList<String>>() {
         }.getType());
         // 取出所有系统角色的权限
         Map<Object, Object> pers = redisUtil.hGetAll("permissions");
         pers.forEach((k, v) -> {
             if (roles.contains(k.toString())) {
-                res.addAll(GsonHelper.json2Object(v.toString(), new TypeToken<List<String>>() {
+                res.addAll(GsonUtils.json2Object(v.toString(), new TypeToken<List<String>>() {
                 }.getType()));
             }
         });
