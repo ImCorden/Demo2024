@@ -3,6 +3,8 @@ package com.bob.student.service;
 import com.bob.student.domain.StudentRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 学生角色表 服务类
@@ -20,4 +22,11 @@ public interface StudentRoleService extends IService<StudentRole> {
      * @return : boolean
      **/
     boolean saveDefaultStudentRole(Long studentId);
+
+    /**
+     * 清理mock数据
+     * @param ids
+     * @return
+     */
+    boolean cleanMockData(List<Long> ids);
 }

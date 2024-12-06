@@ -4,6 +4,8 @@ import com.bob.commontools.pojo.bo.StudentRegistrationProvinceBO;
 import com.bob.student.domain.StudentRegistration;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 学生报名资格 服务类
@@ -30,4 +32,12 @@ public interface StudentRegistrationService extends IService<StudentRegistration
      * @return : void
      **/
     void registerStudent(StudentRegistrationProvinceBO studentRegistrationProvinceBO);
+
+    /**
+     * 清理mock数据
+     * <p>
+     * @params : [ids]
+     * @return : boolean
+     **/
+    boolean cleanMockData(List<Long> ids);
 }

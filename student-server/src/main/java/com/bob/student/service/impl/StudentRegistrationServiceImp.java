@@ -1,6 +1,7 @@
 package com.bob.student.service.impl;
 
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.crypto.digest.BCrypt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -41,6 +42,8 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
     private final StudentService studentService;
     private final StudentRoleService studentRoleService;
 
+    private final StudentRegistrationMapper studentRegistrationMapper;
+
     /**
      * 校验是否可以报名，可以报名，发送mq消息
      * <p>
@@ -79,7 +82,7 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
         if (res.isEmpty()) {
             String salt = BCrypt.gensalt();
             String hashPwd = BCrypt.hashpw("123456", salt);
-            stu =  Student.builder()
+            stu = Student.builder()
                     .identityCode(studentRegistrationProvinceBO.getIdentityCode())
                     .trueName(studentRegistrationProvinceBO.getTrueName())
                     .password(hashPwd)
@@ -88,8 +91,8 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
             studentService.save(stu);
             // 保存默认角色
             studentRoleService.saveDefaultStudentRole(stu.getId());
-            log.info(Constant.LOG_STYLE,"Saving Student And StudentRole to DB");
-        }else {
+            log.info(Constant.LOG_STYLE, "Saving Student And StudentRole to DB");
+        } else {
             stu = res.get(0);
         }
         // 保存报名信息
@@ -98,12 +101,27 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
                 .identityCode(studentRegistrationProvinceBO.getIdentityCode())
                 .year(studentRegistrationProvinceBO.getYear())
                 .registrationNum(studentRegistrationProvinceBO.getRegistrationNum())
-                        .used(YesOrNo.NO.type)
+                .used(YesOrNo.NO.type)
                 .build());
-        log.info(Constant.LOG_STYLE,"Saving StudentRegistration to DB");
+        log.info(Constant.LOG_STYLE, "Saving StudentRegistration to DB");
         if (!save) {
-            log.error(Constant.LOG_STYLE,"保存出错，插入log，人工补偿");
+            log.error(Constant.LOG_STYLE, "保存出错，插入log，人工补偿");
         }
+    }
+
+    /**
+     * 清理mock数据
+     * <p>
+     *
+     * @return : boolean
+     * @params : [ids]
+     **/
+    @Override
+    public boolean cleanMockData(List<Long> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
+            return false;
+        }
+        return studentRegistrationMapper.cleanMockData(ids);
     }
 
 

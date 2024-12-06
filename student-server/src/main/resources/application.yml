@@ -172,3 +172,14 @@ management:
     web:
       exposure:
         include: '*'
+
+xxl:
+  job:
+    accessToken: 'nasxxl'
+    admin-addresses: http://192.168.50.240:18080/xxl-job-admin
+    executor:
+      app-name: student-server-job-executor
+      ip: 192.168.50.199
+      port: 20000
+      log-path: ./logs/xxl-job
+      log-retention-days: 30

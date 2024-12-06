@@ -2,6 +2,10 @@ package com.bob.cart.mapper;
 
 import com.bob.cart.domain.Cart;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +16,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2024-11-04
  */
 public interface CartMapper extends BaseMapper<Cart> {
+
+    @Delete("delete from cart where cart.cart_id > 1")
+    public int cleanMockData();
 
 }

@@ -2,6 +2,10 @@ package com.bob.order.mapper;
 
 import com.bob.order.domain.OrderItem;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +16,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2024-11-04
  */
 public interface OrderItemMapper extends BaseMapper<OrderItem> {
+
+    @Delete("delete from order_item where order_item.order_item_id > 1")
+    int cleanMockData();
 
 }

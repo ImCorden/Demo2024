@@ -9,10 +9,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * <p>
@@ -23,6 +20,8 @@ import lombok.Setter;
  * @since 2024-11-04
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @TableName("cart_item")
 @Schema(name = "CartItem", description = "购物车商品详情")

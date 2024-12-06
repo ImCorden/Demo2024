@@ -20,4 +20,11 @@
         id, student_id, role_id, revision, created_by, created_time, updated_by, updated_time, del_flag
     </sql>
 
+
+    <delete id="cleanMockData">
+        delete from student_role where id in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
 </mapper>

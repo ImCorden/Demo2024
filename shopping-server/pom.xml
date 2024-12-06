@@ -18,6 +18,7 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
     </properties>
     <dependencies>
         <!-- Spring boot 依赖 -->
@@ -96,6 +97,12 @@
             <version>${redisson.version}</version>
         </dependency>
 
+        <!-- 分布式任务 -->
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+            <version>${xxl-job.version}</version>
+        </dependency>
 
         <!-- 文档 -->
         <dependency>

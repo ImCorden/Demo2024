@@ -7,10 +7,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.checkerframework.checker.units.qual.A;
 
 /**
  * <p>
@@ -21,6 +19,8 @@ import lombok.Setter;
  * @since 2024-11-04
  */
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @TableName("student_registration")
 @Schema(name = "StudentRegistration", description = "学生报名资格")

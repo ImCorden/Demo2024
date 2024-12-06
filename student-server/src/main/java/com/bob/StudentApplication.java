@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         @LoadBalancerClient(name = "DemoForMore",
                 configuration = com.alibaba.cloud.nacos.loadbalancer.NacosLoadBalancerClientConfiguration.class)
 })
-@MapperScan("com.bob.*.mapper")
+@MapperScan(basePackages = "com.bob.*.mapper")
 @EnableTransactionManagement
 @SpringBootApplication
 public class StudentApplication {
