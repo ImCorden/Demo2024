@@ -1,17 +1,14 @@
 package com.bob.xxljob;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bob.cart.mapper.CartItemMapper;
 import com.bob.cart.mapper.CartMapper;
 import com.bob.cart.service.CartItemService;
 import com.bob.cart.service.CartService;
-import com.bob.order.domain.OrderItem;
 import com.bob.order.mapper.OrderItemMapper;
 import com.bob.order.mapper.OrdersMapper;
 import com.bob.order.service.OrderItemService;
 import com.bob.order.service.OrdersService;
-import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.Data;

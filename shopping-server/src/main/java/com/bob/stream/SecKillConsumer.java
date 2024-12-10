@@ -40,7 +40,7 @@ public class SecKillConsumer {
     @Bean
     public Consumer<SecKillItemBo> toSecKill() {
         return message -> {
-            // log.info("-------------------------------------------------------------toSecKillConsumer接到消息：{}", message);
+            log.info("-------------------------------------------------------------toSecKillConsumer接到消息：{}", message);
             // throw new RuntimeException(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>error");
             // 查看是否已经秒杀成功
             boolean secKillSuccess = secKillService.isSecKillSuccess(message);

@@ -1,4 +1,4 @@
-package com.bob.commontools.config.xxlJob;
+package com.bob.config.xxlJob;
 
 
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;

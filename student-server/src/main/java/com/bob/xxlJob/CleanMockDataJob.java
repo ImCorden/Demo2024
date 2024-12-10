@@ -16,6 +16,7 @@ import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,8 +39,19 @@ public class CleanMockDataJob {
     private final StudentService studentService;
     private final StudentRegistrationService studentRegistrationService;
     private final StudentRoleService studentRoleService;
-    private Executor executor = Executors.newFixedThreadPool(3);
-
+    private ExecutorService executorService = new ThreadPoolExecutor(
+            3,  // corePoolSize
+            3,  // maximumPoolSize
+            60L, // keepAliveTime
+            TimeUnit.SECONDS,
+            new LinkedBlockingQueue<>(100), // 阻塞队列
+            r -> {
+                Thread thread = new Thread(r);
+                thread.setName("clean-mock-thread" + thread.getId());
+                return thread;
+            },
+            new ThreadPoolExecutor.CallerRunsPolicy() // 拒绝策略
+    );
     @XxlJob(value = "stuMockDataCleanHandler")
     public void execute() {
         long start = System.currentTimeMillis();
@@ -53,21 +65,21 @@ public class CleanMockDataJob {
         // 异步开始删除
         CompletableFuture<Boolean> stuFuture = CompletableFuture.supplyAsync(() -> {
             return cleanStudent(index, total, xxlJobContext);
-        }, executor).exceptionally(e -> {
+        }, executorService).exceptionally(e -> {
             XxlJobHelper.log("clean student error:{}", e.getMessage());
             return false;
         });
 
         CompletableFuture<Boolean> stuRoleFuture = CompletableFuture.supplyAsync(() -> {
             return cleanStudentRole(index, total, xxlJobContext);
-        }, executor).exceptionally(e -> {
+        }, executorService).exceptionally(e -> {
             XxlJobHelper.log("clean student role error:{}", e.getMessage());
             return false;
         });
 
         CompletableFuture<Boolean> stuRegFuture = CompletableFuture.supplyAsync(() -> {
             return cleanStudentReg(index, total, xxlJobContext);
-        }, executor).exceptionally(e -> {
+        }, executorService).exceptionally(e -> {
             XxlJobHelper.log("clean student reg error:{}", e.getMessage());
             return false;
         });
@@ -97,6 +109,7 @@ public class CleanMockDataJob {
      * @return
      */
     private boolean cleanStudent(int index, int total, XxlJobContext xxlJobContext) {
+        log.info("student:{}",Thread.currentThread().getName());
         XxlJobContext.setXxlJobContext(xxlJobContext);
         long stuMockNum = studentService.count(new LambdaQueryWrapper<Student>().gt(Student::getId, 1000));
         if (stuMockNum == 0) {
@@ -136,6 +149,7 @@ public class CleanMockDataJob {
      * @params : [index, total, xxlJobContext]
      **/
     private boolean cleanStudentReg(int index, int total, XxlJobContext xxlJobContext) {
+        log.info("cleanStudentReg:{}",Thread.currentThread().getName());
         // 子线程重新设置xxl上下文
         XxlJobContext.setXxlJobContext(xxlJobContext);
 
@@ -177,6 +191,7 @@ public class CleanMockDataJob {
      * @params : [index, total, xxlJobContext]
      **/
     private boolean cleanStudentRole(int index, int total, XxlJobContext xxlJobContext) {
+        log.info("cleanStudentRole:{}",Thread.currentThread().getName());
         XxlJobContext.setXxlJobContext(xxlJobContext);
         long stuRoleMockNum = studentRoleService.count(new LambdaQueryWrapper<StudentRole>().gt(StudentRole::getId, 20));
         if (stuRoleMockNum == 0) {

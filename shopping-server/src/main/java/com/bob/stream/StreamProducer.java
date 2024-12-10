@@ -33,7 +33,7 @@ public class StreamProducer {
      * @params : [message]
      **/
     public boolean sendSyncSingleMsg(String message) {
-        // log.info("-------------------------------------------------------------SecKillProcessor准备开始发送消息：{}", message);
+        log.info("-------------------------------------------------------------SecKillProcessor准备开始发送消息：{}", message);
         return streamBridge.send(
                 StreamConstants.SEC_KILL_PROCESSOR,
                 MessageBuilder.withPayload(message).build()
