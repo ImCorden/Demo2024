@@ -6,6 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>student-server</name>
     <description>student-server</description>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>com.bob</groupId>
@@ -98,11 +99,17 @@
             <version>${redisson.version}</version>
         </dependency>
 
-        <!-- 分布式任务 -->
+        <!-- 分布式调度 -->
         <dependency>
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-job-core</artifactId>
             <version>${xxl-job.version}</version>
+        </dependency>
+
+        <!-- 分布式事务 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
         </dependency>
 
 

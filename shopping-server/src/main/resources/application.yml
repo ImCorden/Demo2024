@@ -115,6 +115,39 @@ feign:
   sentinel:
     enabled: true
 
+
+# Seata配置
+seata:
+  enabled: true
+  application-id: shopping-server
+  tx-service-group: demo2024-tx-group
+  enable-auto-data-source-proxy: true
+  service:
+    vgroup-mapping:
+        demo2024-tx-group: default
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 192.168.50.240:8848
+      username: nacos
+      password: nacos
+      namespace: 8b9cb881-bf6c-4a6a-88c0-fc468b4d1e99
+      group: SEATA_GROUP
+      application: seata-server
+  secret-key: SeataSecretKey0c382ef121d778043159209298fd40bf3850a017
+
+# xxl-job配置
+xxl:
+  job:
+    accessToken: 'nasxxl'
+    admin-addresses: http://192.168.50.240:18080/xxl-job-admin
+    executor:
+      app-name: shopping-server-job-executor
+      ip: 192.168.50.199
+      port: 21000
+      log-path: ./logs/xxl-job
+      log-retention-days: 30
+
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -159,14 +192,3 @@ management:
     web:
       exposure:
         include: '*'
-
-xxl:
-  job:
-    accessToken: 'nasxxl'
-    admin-addresses: http://192.168.50.240:18080/xxl-job-admin
-    executor:
-      app-name: shopping-server-job-executor
-      ip: 192.168.50.199
-      port: 21000
-      log-path: ./logs/xxl-job
-      log-retention-days: 30

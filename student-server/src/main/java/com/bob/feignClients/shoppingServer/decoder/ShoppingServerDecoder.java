@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
  * @Version : 1.0
  **/
 @Slf4j
-public class shoppingServerDecoder implements Decoder {
+public class ShoppingServerDecoder implements Decoder {
 
     @Override
     public Object decode(Response response, Type type){
