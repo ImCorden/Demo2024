@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: student-server
+  elasticsearch:
+    uris: http://192.168.50.240:9200
   # 2022.0.x nacos config不使用bootstrap.yml拉取配置，必须要这么写
   config:
     import:
