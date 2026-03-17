@@ -62,7 +62,6 @@ public class ElasticSearchRepositoryController {
                     }
                     return dto;
                 }).toList();
-
         return JsonResult.ok(res);
     }
 

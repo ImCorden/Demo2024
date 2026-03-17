@@ -52,6 +52,9 @@ public class CleanMockDataJob {
             },
             new ThreadPoolExecutor.CallerRunsPolicy() // 拒绝策略
     );
+
+
+
     @XxlJob(value = "stuMockDataCleanHandler")
     public void execute() {
         long start = System.currentTimeMillis();
