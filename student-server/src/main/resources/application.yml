@@ -5,7 +5,7 @@ spring:
   application:
     name: student-server
   elasticsearch:
-    uris: http://192.168.50.240:9200
+    uris: http://${ES_HOST_PORT:192.168.50.240:9200}
   # 2022.0.x nacos config不使用bootstrap.yml拉取配置，必须要这么写
   config:
     import:
@@ -13,7 +13,7 @@ spring:
       - optional:nacos:redis-config.yml?group=common&refreshEnable=true
   cloud:
     nacos:
-      server-addr: 192.168.50.240:8848
+      server-addr: ${NACOS_HOST_PORT:192.168.50.240:8848}
       discovery:
         namespace: demo2024-ff70-43c5-89b6-06110ac8856a
         group: demo2024
@@ -42,7 +42,7 @@ spring:
       # RocketMQ 个性化配置(https://sca.aliyun.com/docs/2023/user-guide/rocketmq/quick-start/?spm=5176.29160081.0.0.74805c72LbrCmb)
       rocketmq:
         binder:
-          name-server: 192.168.50.241:9876
+          name-server: ${ROCKETMQ_NAME_SERVER:192.168.50.241:9876}
           enable-msg-trace: true
         bindings:
           reg-out-0:
@@ -106,7 +106,7 @@ spring:
     sentinel:
       enabled: true
       transport:
-        dashboard: 192.168.50.240:8858
+        dashboard: ${SENTINEL_DASHBOARD_HOST_PORT:192.168.50.240:8858}
         port: 8719
       filter:
         enabled: true
@@ -128,7 +128,7 @@ seata:
   registry:
     type: nacos
     nacos:
-      server-addr: 192.168.50.240:8848
+      server-addr: ${SEATA_NACOS_HOST_PORT:192.168.50.240:8848}
       namespace: 8b9cb881-bf6c-4a6a-88c0-fc468b4d1e99
       username: nacos
       password: nacos
@@ -140,11 +140,11 @@ seata:
 xxl:
   job:
     accessToken: 'nasxxl'
-    admin-addresses: http://192.168.50.240:18080/xxl-job-admin
+    admin-addresses: http://${XXL_JOB_ADMIN_HOST_PORT:192.168.50.240:18080}/xxl-job-admin
     executor:
       app-name: student-server-job-executor
-      ip: 192.168.50.199
-      port: 20000
+      ip: ${XXL_JOB_EXECUTOR_IP:192.168.50.10}
+      port: ${XXL_JOB_EXECUTOR_PORT:20000}
       log-path: ./logs/xxl-job
       log-retention-days: 30
 
