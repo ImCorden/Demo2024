@@ -1,5 +1,6 @@
 package com.bob.student.controller;
 
+import com.bob.aspect.UnnecessaryStudentId;
 import com.bob.commontools.pojo.JsonResult;
 import com.bob.commontools.pojo.bo.StudentRegistrationProvinceBO;
 import com.bob.student.service.StudentRegistrationService;
@@ -40,8 +41,12 @@ public class StudentRegistrationController {
      **/
     @Operation(summary = "省厅报名接口")
     @PostMapping("province")
+    @UnnecessaryStudentId // 省厅报名接口不需要学生ID
     public JsonResult registration(@RequestBody StudentRegistrationProvinceBO studentRegistrationProvinceBO) {
-        if (studentRegistrationService.checkByIdentityCode(studentRegistrationProvinceBO)) {
+
+        // boolean res = studentRegistrationService.sendRegistrationMsg(studentRegistrationProvinceBO);
+
+        if (studentRegistrationService.sendRegistrationMsg(studentRegistrationProvinceBO)) {
             return JsonResult.ok("SUCCESS");
         }
         return JsonResult.errorMsg("ERROR");

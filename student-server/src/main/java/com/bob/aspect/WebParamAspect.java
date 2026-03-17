@@ -28,7 +28,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class WebParamAspect {
 
 
-    @Pointcut("execution(* com.bob.*.controller.*.*(..))")
+    @Pointcut("execution(* com.bob.*.controller.*.*(..)) && !@annotation(com.bob.aspect.UnnecessaryStudentId)")
     private void pointcut() {
     }
 

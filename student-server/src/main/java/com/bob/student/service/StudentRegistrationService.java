@@ -40,4 +40,12 @@ public interface StudentRegistrationService extends IService<StudentRegistration
      * @return : boolean
      **/
     boolean cleanMockData(List<Long> ids);
+
+    /**
+     * 发送报名消息
+     * <p>
+     * @params : [studentRegistrationProvinceBO]
+     * @return : boolean
+     **/
+    boolean sendRegistrationMsg(StudentRegistrationProvinceBO studentRegistrationProvinceBO);
 }

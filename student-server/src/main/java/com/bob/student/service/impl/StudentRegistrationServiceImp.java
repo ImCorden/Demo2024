@@ -3,10 +3,13 @@ package com.bob.student.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.crypto.digest.BCrypt;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.bob.commontools.exception.BizException;
 import com.bob.commontools.pojo.enums.YesOrNo;
 import com.bob.commontools.utils.GsonUtils;
+import com.bob.commontools.utils.RedisUtil;
 import com.bob.core.pojo.Constant;
 import com.bob.student.domain.Student;
 import com.bob.student.service.StudentRoleService;
@@ -20,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -41,11 +45,13 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
     private final StreamProducer streamProducer;
     private final StudentService studentService;
     private final StudentRoleService studentRoleService;
+    private final RedisUtil redisUtil;
 
     private final StudentRegistrationMapper studentRegistrationMapper;
 
     /**
      * 校验是否可以报名，可以报名，发送mq消息
+     * 废弃，性能很差，在高并发场景下，会打爆数据库
      * <p>
      *
      * @return : boolean
@@ -65,6 +71,65 @@ public class StudentRegistrationServiceImp extends ServiceImpl<StudentRegistrati
         }
         return false;
     }
+
+    /**
+     * 直接报名
+     * <p>
+     *
+     * @return : boolean
+     * @params : [studentRegistrationProvinceBO]
+     **/
+    @Override
+    @SentinelResource(value = "sendRegistrationMsg", fallback = "sendRegistrationMsgFallback")
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public boolean sendRegistrationMsg(StudentRegistrationProvinceBO studentRegistrationProvinceBO) {
+        // 这里不需要 try-catch，让异常直接抛出给 Sentinel
+        return sendRegistrationMQMsg(studentRegistrationProvinceBO);
+    }
+
+    /**
+     * 发送报名MQ消息
+     * <p>
+     *
+     * @return : boolean
+     * @params : [studentRegistrationProvinceBO]
+     **/
+    private boolean sendRegistrationMQMsg(StudentRegistrationProvinceBO studentRegistrationProvinceBO) {
+        // 这里的异常会向上抛出，触发外层的 Sentinel fallback
+        boolean res = streamProducer.sendSyncSingleMsg(GsonUtils.object2Json(studentRegistrationProvinceBO));
+        if (!res) {
+            // 主动抛错，触发降级
+            throw new RuntimeException("MQ发送失败");
+        }
+        return res;
+    }
+
+    /**
+     * 发送报名MQ消息 fallback 方法
+     * <p>
+     * @params : [bo, t]
+     * @return : boolean
+     **/
+    public boolean sendRegistrationMsgFallback(StudentRegistrationProvinceBO bo, Throwable t) {
+        log.error("触发降级：MQ发送异常，转存Redis。异常信息：{}", t.getMessage());
+        this.writeToRedis(bo);
+        // 返回 true 表示降级处理成功（已留底），或者 false 看你业务定义
+        return true;
+    }
+
+    /**
+     * 写入 Redis 队列
+     * @param studentRegistrationProvinceBO
+     */
+    private void writeToRedis(StudentRegistrationProvinceBO studentRegistrationProvinceBO) {
+        try {
+            Long l = redisUtil.lLeftPush("reg:downgrade:queue", GsonUtils.object2Json(studentRegistrationProvinceBO));
+        } catch (Exception e) {
+            log.error("严重事故：Redis 也挂了，写入本地日志", e);
+            // 写本地文件 Log...
+        }
+    }
+
 
     /**
      * 注册学生

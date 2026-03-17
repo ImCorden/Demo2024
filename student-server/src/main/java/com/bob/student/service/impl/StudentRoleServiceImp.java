@@ -1,6 +1,7 @@
 package com.bob.student.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.bob.core.pojo.Constant;
 import com.bob.student.domain.StudentRole;
 import com.bob.student.mapper.StudentRoleMapper;
 import com.bob.student.service.StudentRoleService;
@@ -36,7 +37,7 @@ public class StudentRoleServiceImp extends ServiceImpl<StudentRoleMapper, Studen
     public boolean saveDefaultStudentRole(Long studentId) {
         return this.save(StudentRole.builder()
                 .studentId(studentId)
-                .roleId(1L)
+                .roleId(Constant.DEFAULT_STUDENT_ROLE_ID)
                 .build());
     }
 
