@@ -3,7 +3,6 @@
 ![Spring Boot 3](https://img.shields.io/badge/Spring_Boot-3.0.2-brightgreen?logo=springboot)
 ![Spring Cloud Alibaba](https://img.shields.io/badge/SC_Alibaba-2022.0.0.0-blue?logo=alibabacloud)
 ![JDK 17](https://img.shields.io/badge/JDK-17-orange?logo=java)
-![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey?logo=apple)
 
 **Demo2024** 是一套基于 **Spring Boot 3** 与 **JDK 17** 构建的全栈微服务解决方案。本项目深度集成 **Spring Cloud Alibaba** 生态体系，模拟了“在线教育 + 电子商务”融合的业务场景，旨在演示高并发、分布式事务、统一鉴权及海量数据检索的企业级落地实践。
 
@@ -23,21 +22,21 @@
 
 ## 🛠 技术栈概览
 
-| 类别 | 技术组件 | 版本 (参考) | 核心描述 |
-| :--- | :--- | :--- | :--- |
-| **基础框架** | **Spring Boot** | 3.0.2 | 核心应用容器与生态基石 |
-| **微服务治理** | **SC Alibaba** | 2022.0.0.0 | 服务发现、配置中心及流量治理 |
-| **注册/配置** | **Nacos** | 2.x | 动态服务发现与配置集中管理 |
-| **流量治理** | **Sentinel** | 1.8.x | 熔断、降级与系统自适应限流 |
-| **事务管理** | **Seata** | 1.6+/2.0 | AT 模式与 TCC 模式分布式事务 |
-| **异步驱动** | **RocketMQ** | 4.9.x | 业务解耦、异步下单与流量削峰 |
-| **权限安全** | **Sa-Token** | Latest | 极简、高性能的权限认证框架 |
-| **API 网关** | **Gateway** | 4.x | 统一流量入口、动态路由与鉴权 |
-| **数据持久化** | **MyBatis-Plus** | 3.5.x | 高效的对象关系映射 (ORM) |
-| **缓存/锁** | **Redis/Redisson** | 7.x | 多级缓存加速与分布式锁实现 |
-| **搜索引擎** | **Elasticsearch** | 7.17.x | 课程海量数据检索与统计 |
-| **任务调度** | **XXL-JOB** | 2.4.x | 分布式定时任务调度平台 |
-| **文档交互** | **Knife4j** | 4.x | 增强型 Swagger 接口交互文档 |
+| 类别 | 技术组件                     | 版本 (参考) | 核心描述 |
+| :--- |:-------------------------| :--- | :--- |
+| **基础框架** | **Spring Boot**          | 3.0.2 | 核心应用容器与生态基石 |
+| **微服务治理** | **Spring Cloud Alibaba** | 2022.0.0.0 | 服务发现、配置中心及流量治理 |
+| **注册/配置** | **Nacos**                | 2.x | 动态服务发现与配置集中管理 |
+| **流量治理** | **Sentinel**             | 1.8.x | 熔断、降级与系统自适应限流 |
+| **事务管理** | **Seata**                | 1.6+/2.0 | AT 模式与 TCC 模式分布式事务 |
+| **异步驱动** | **RocketMQ**             | 4.9.x | 业务解耦、异步下单与流量削峰 |
+| **权限安全** | **Sa-Token**             | Latest | 极简、高性能的权限认证框架 |
+| **API 网关** | **Gateway**              | 4.x | 统一流量入口、动态路由与鉴权 |
+| **数据持久化** | **MyBatis-Plus**         | 3.5.x | 高效的对象关系映射 (ORM) |
+| **缓存/锁** | **Redis/Redisson**       | 7.x | 多级缓存加速与分布式锁实现 |
+| **搜索引擎** | **Elasticsearch**        | 7.17.x | 课程海量数据检索与统计 |
+| **任务调度** | **XXL-JOB**              | 2.4.x | 分布式定时任务调度平台 |
+| **文档交互** | **Knife4j**              | 4.x | 增强型 Swagger 接口交互文档 |
 
 ---
 
@@ -119,25 +118,5 @@ Demo2024
 3.  `StudentApplication` (学生业务)
 4.  `ShoppingApplication` (交易业务)
 
----
-
-## 🧪 性能压力测试说明
-
-> [!NOTE]
-> 性能指标取决于部署环境。
-
-* **本地高性能环境 (如 macOS M4 Max)**：
-    由于本地环回接口无网络延迟，吞吐量 (QPS) 理论峰值可达 **>10k**。此数据仅用于验证业务逻辑闭环，不作为生产规划参考。
-* **混合环境 (Mac 本地应用 + NAS 远程中间件)**：
-    受物理带宽及 NAS 虚拟机 IO 限制，QPS 指标可能偏低。应重点关注**分布式协同的正确性**及**超时熔断机制**的有效性。
-
----
-
-## 📝 未来优化规划 (Roadmap)
-- [ ] **服务降级完善**：针对 Feign Fallback 补充具体的业务补偿逻辑。
-- [ ] **配置中心优化**：将通用配置抽象至 Nacos 共享组，实现配置解耦与复用。
-- [ ] **AI 智能化集成**：引入 **Spring Cloud Alibaba AI**，升级 Boot 至 3.2.4+，实现智能推荐与 AI 客服。
-
----
 **Author:** Bob  
 **Copyright:** © 2024 Demo Project
